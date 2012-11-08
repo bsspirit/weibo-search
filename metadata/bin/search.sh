@@ -1,11 +1,11 @@
 #!/bin/bash
 PRG=$0
 PRGDIR=`dirname "$PRG"`
-CLASSPATH="$PRGDIR/../"
-FILES=$PRGDIR/../lib/*
+CLASSPATH="$PRGDIR/search.jar"
+FILES=$PRGDIR/lib/*
 for f in $FILES
 do
 	CLASSPATH=${CLASSPATH}:$f
 done
 echo ${CLASSPATH}
-#java -classpath ${CLASSPATH} com.tianji.suggestion.offline.PymkMain
+java -classpath ${CLASSPATH} org.conan.search.SpringMainRun $1 $2 $3 $4

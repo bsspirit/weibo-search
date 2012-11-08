@@ -22,7 +22,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>metadata/bin/</directory>
-			<outputDirectory>search/bin</outputDirectory>
+			<outputDirectory>search/</outputDirectory>
 			<fileMode>0775</fileMode>
 		</fileSet>
 		<fileSet>
