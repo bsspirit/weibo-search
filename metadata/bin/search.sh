@@ -7,5 +7,5 @@ for f in $FILES
 do
 	CLASSPATH=${CLASSPATH}:$f
 done
-echo ${CLASSPATH}
+#echo ${CLASSPATH}
 java -classpath ${CLASSPATH} org.conan.search.SpringMainRun $1 $2 $3 $4
