@@ -17,6 +17,11 @@ public interface SpringService {
 //    String REST_SOCIAL_NAME = "rest.social.name";
 //    String REST_SOCIAL_NODE = "rest.social.node";
     
+    //任务名字
+    enum TASK{
+        LOAD, 
+    }
+    
     // 访问限制
 //    String LIMIT_REPORT_FANS = "report.fans";
     String LIMIT_WEIBO_LOAD_FANS = "load.fans";

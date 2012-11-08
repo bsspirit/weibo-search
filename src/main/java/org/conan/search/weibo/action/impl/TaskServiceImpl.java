@@ -9,6 +9,7 @@ import org.conan.base.service.SpringService;
 import org.conan.search.weibo.action.LoadService;
 import org.conan.search.weibo.action.TaskService;
 import org.conan.search.weibo.action.WeiboActionService;
+import org.conan.search.weibo.model.UserDTO;
 import org.conan.search.weibo.service.UserService;
 import org.conan.search.weibo.util.WeiboTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +46,12 @@ public class TaskServiceImpl implements TaskService {
     private Long getUidByScreen(String screen, String token) throws WeiboException, IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("screen_name", screen);
-        Long uid = userService.getUserOne(map).getUid();
 
-        if (uid == null || uid <= 0) {
+        UserDTO dto = userService.getUserOne(map);
+        Long uid = null;
+        if (dto != null && dto.getUid() > 0) {
+            uid = dto.getUid();
+        } else {
             User u = action.user(screen, token);
             uid = Long.parseLong(u.getId());
             try {
