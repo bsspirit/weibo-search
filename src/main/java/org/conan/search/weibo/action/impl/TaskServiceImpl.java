@@ -2,6 +2,7 @@ package org.conan.search.weibo.action.impl;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -9,7 +10,9 @@ import org.conan.base.service.SpringService;
 import org.conan.search.weibo.action.LoadService;
 import org.conan.search.weibo.action.TaskService;
 import org.conan.search.weibo.action.WeiboActionService;
+import org.conan.search.weibo.model.LoadUserDTO;
 import org.conan.search.weibo.model.UserDTO;
+import org.conan.search.weibo.service.LoadUserService;
 import org.conan.search.weibo.service.UserService;
 import org.conan.search.weibo.util.WeiboTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     LoadService loadService;
     @Autowired
+    LoadUserService loadUserService;
+    @Autowired
     WeiboActionService action;
     @Autowired
     UserService userService;
@@ -41,6 +46,17 @@ public class TaskServiceImpl implements TaskService {
     public void load(String screen, String token) throws WeiboException, IOException {
         Long uid = getUidByScreen(screen, token);
         load(uid, token);
+    }
+
+    @Override
+    public void loadDB(String token) throws WeiboException, IOException {
+        List<LoadUserDTO> list = loadUserService.getLoadUsers(new HashMap<String, Object>());
+        log.info("LoadDB count: " + list.size());
+
+        for (LoadUserDTO dto : list) {
+            load(dto.getScreen_name(), token);
+            loadUserService.deleteLoadUser(dto.getId());
+        }
     }
 
     private Long getUidByScreen(String screen, String token) throws WeiboException, IOException {
@@ -63,4 +79,5 @@ public class TaskServiceImpl implements TaskService {
         log.info(uid + "," + screen);
         return uid;
     }
+
 }

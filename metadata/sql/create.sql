@@ -1,6 +1,6 @@
 #This is search CREATE SQL.
 #@author Conan Zhang
-#@date 2012-11-07
+#@date 2012-11-08
 
 use search;
 
@@ -83,4 +83,10 @@ CREATE TABLE t_load_frequence(
     create_date TIMESTAMP NULL  DEFAULT now()
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE UNIQUE INDEX t_load_frequence_IDX_0 on t_load_frequence(uid,type);
+
+CREATE TABLE t_load_user(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    screen_name VARCHAR(32) NOT NULL UNIQUE,
+    create_date TIMESTAMP NULL  DEFAULT now()
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

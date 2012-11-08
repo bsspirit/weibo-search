@@ -7,6 +7,7 @@ import org.conan.base.service.SpringService;
 import org.conan.base.util.MyCast;
 import org.conan.base.util.SpringInitialize;
 import org.conan.search.weibo.action.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import weibo4j.examples.oauth2.Log;
@@ -17,6 +18,9 @@ public class SpringMainRun extends SpringInitialize {
 
     final private static Logger log = Logger.getLogger(Log.class.getName());
 
+    @Autowired
+    TaskService taskService;
+
     // AccessToken [accessToken=2.00v9eSLCzzDJbE8e025c068aftigRE,
     // expireIn=664938, refreshToken=,uid=1999250817]
     public static void main(String[] args) throws IOException {
@@ -25,11 +29,6 @@ public class SpringMainRun extends SpringInitialize {
 
         SpringMainRun spring = getContext().getBean(SpringMainRun.class);
         spring.run(args);
-    }
-
-    public static void load(String screen, String token) throws WeiboException, IOException {
-        TaskService task = SpringMainRun.getContext().getBean(TaskService.class);
-        task.load(screen, token);
     }
 
     @Override
@@ -54,8 +53,8 @@ public class SpringMainRun extends SpringInitialize {
     @Override
     public void help() {
         System.out.println("Please Input argments: ");
-        System.out.println("-tLOAD");
-        System.out.println("-screenConan_Z");
+        System.out.println("-tLOAD -screenConan_Z");
+        System.out.println("-tLOADDB");
         System.exit(0);
     }
 
@@ -68,12 +67,20 @@ public class SpringMainRun extends SpringInitialize {
         try {
             MyCast.emptyCheck(task, "task");
             MyCast.emptyCheck(token, "token");
-            MyCast.emptyCheck(screen, "screen");
-
             switch (SpringService.TASK.valueOf(task)) {
             case LOAD:
                 try {
-                    load(screen, token);
+                    MyCast.emptyCheck(screen, "screen");
+                    taskService.load(screen, token);
+                } catch (WeiboException we) {
+                    log.error(we.getMessage());
+                } catch (IOException ioe) {
+                    log.error(ioe.getMessage());
+                }
+                break;
+            case LOADDB:
+                try {
+                    taskService.loadDB(token);
                 } catch (WeiboException we) {
                     log.error(we.getMessage());
                 } catch (IOException ioe) {

@@ -12,5 +12,6 @@ public interface TaskService {
     
     public void load(long uid, String token) throws WeiboException, IOException ;
     public void load(String screen, String token) throws WeiboException, IOException ;
+    public void loadDB(String token) throws WeiboException, IOException ;
 
 }

@@ -9,7 +9,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 <!--
     This is project's spring-dao.xml.
     @author Conan Zhang
-    @date 2012-11-07
+    @date 2012-11-08
 -->
 
 	<bean id="accountDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
@@ -40,6 +40,11 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<bean id="loadFrequenceDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
 		<property name="mapperInterface" value="org.conan.search.weibo.dao.LoadFrequenceDAO"/>
+	</bean>
+
+	<bean id="loadUserDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value="org.conan.search.weibo.dao.LoadUserDAO"/>
 	</bean>
 
 	
