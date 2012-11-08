@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+
+<configuration>
+
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="REUSE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias alias="accountDTO" type="org.conan.search.weibo.model.AccountDTO"/>
+		<typeAlias alias="userRelateDTO" type="org.conan.search.weibo.model.UserRelateDTO"/>
+		<typeAlias alias="userDTO" type="org.conan.search.weibo.model.UserDTO"/>
+		<typeAlias alias="provincesDTO" type="org.conan.search.weibo.model.ProvincesDTO"/>
+		<typeAlias alias="userSignDTO" type="org.conan.search.weibo.model.UserSignDTO"/>
+		<typeAlias alias="loadFrequenceDTO" type="org.conan.search.weibo.model.LoadFrequenceDTO"/>
+	</typeAliases>
+
+	<mappers>
+		<!-- system -->
+		<mapper resource="mybatis-mysql.xml" />
+		
+		<!-- model -->
+		<mapper resource="org/conan/search/weibo/dao/account.xml" />
+		<mapper resource="org/conan/search/weibo/dao/userRelate.xml" />
+		<mapper resource="org/conan/search/weibo/dao/user.xml" />
+		<mapper resource="org/conan/search/weibo/dao/provinces.xml" />
+		<mapper resource="org/conan/search/weibo/dao/userSign.xml" />
+		<mapper resource="org/conan/search/weibo/dao/loadFrequence.xml" />
+	</mappers>
+	
+</configuration>

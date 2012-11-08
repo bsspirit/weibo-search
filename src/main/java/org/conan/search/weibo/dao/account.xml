@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!--
+    This is Account sql
+    @author Conan Zhang
+    @date 2012-11-06
+-->
+<mapper namespace="org.conan.search.weibo.dao.AccountDAO">
+
+    <resultMap id="result" type="accountDTO">
+        <result property="id" column="id" javaType="java.lang.Integer"/>
+        <result property="create_date" column="create_date" javaType="java.sql.Timestamp"/>
+        <result property="expireIn" column="expireIn" javaType="java.lang.String"/>
+        <result property="refresh" column="refresh" javaType="java.lang.String"/>
+        <result property="state" column="state" javaType="java.lang.String"/>
+        <result property="screen_name" column="screen_name" javaType="java.lang.String"/>
+        <result property="token" column="token" javaType="java.lang.String"/>
+        <result property="uid" column="uid" javaType="java.lang.Long"/>
+    </resultMap>
+
+    <sql id="select">
+        SELECT
+            id,
+            create_date,
+            expireIn,
+            refresh,
+            state,
+            screen_name,
+            token,
+            uid
+    </sql>
+
+    <sql id="condition">
+        <if test="create_date!=null">create_date = #{create_date} and</if>
+        <if test="expireIn!=null">expireIn = #{expireIn} and</if>
+        <if test="refresh!=null">refresh = #{refresh} and</if>
+        <if test="state!=null">state = #{state} and</if>
+        <if test="screen_name!=null">screen_name = #{screen_name} and</if>
+        <if test="token!=null">token = #{token} and</if>
+        <if test="uid!=null">uid = #{uid} and</if>
+        1=1
+    </sql>
+
+    <insert id="insertAccount" parameterType="accountDTO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_account(
+            <if test="create_date!=null ">create_date,</if>
+            <if test="expireIn!=null ">expireIn,</if>
+            <if test="refresh!=null ">refresh,</if>
+            <if test="state!=null ">state,</if>
+            screen_name,
+            token,
+            uid
+        ) VALUES (
+            <if test="create_date!=null">#{create_date},</if>
+            <if test="expireIn!=null">#{expireIn},</if>
+            <if test="refresh!=null">#{refresh},</if>
+            <if test="state!=null">#{state},</if>
+            #{screen_name},
+            #{token},
+            #{uid}
+        )
+    </insert>
+
+    <delete id="deleteAccount" parameterType="java.lang.Integer">
+        DELETE FROM t_account
+        WHERE
+            id = #{id}
+    </delete>
+
+	<delete id="deleteAccounts" parameterType="java.util.Map">
+        DELETE FROM t_account
+        WHERE
+        <include refid="condition"/>
+    </delete>
+
+    <update id="updateAccount" parameterType="accountDTO">
+        UPDATE t_account
+        SET
+            <if test="create_date!=null">create_date = #{create_date},</if>
+            <if test="expireIn!=null">expireIn = #{expireIn},</if>
+            <if test="refresh!=null">refresh = #{refresh},</if>
+            <if test="state!=null">state = #{state},</if>
+            <if test="screen_name!=null">screen_name = #{screen_name},</if>
+            <if test="token!=null">token = #{token},</if>
+            <if test="uid!=null">uid = #{uid},</if>
+            id = #{id}
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="getAccountById" parameterType="java.lang.Integer" resultMap="result">
+        <include refid="select"/>
+        FROM
+            t_account
+        WHERE
+            id = #{id}
+    </select>
+    
+    <select id="getAccountOne" parameterType="java.util.Map" resultMap="result">
+        <include refid="select"/>
+        FROM
+            t_account
+        WHERE
+        <include refid="condition"/>
+        limit 1
+    </select>
+
+    <select id="getAccounts" parameterType="java.util.Map" resultMap="result">
+        <include refid="select"/>
+        FROM
+            t_account
+        WHERE
+        <include refid="condition"/>
+        <include refid="mysql.page.order"/>
+        <include refid="mysql.page.limit"/>
+    </select>
+
+    <select id="getAccountsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+            count(id)
+        FROM
+            t_account
+        WHERE
+        <include refid="condition"/>
+    </select>
+
+
+</mapper>

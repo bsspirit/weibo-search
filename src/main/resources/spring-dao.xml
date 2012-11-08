@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+<!--
+    This is project's spring-dao.xml.
+    @author Conan Zhang
+    @date 2012-11-07
+-->
+
+	<bean id="accountDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value="org.conan.search.weibo.dao.AccountDAO"/>
+	</bean>
+
+	<bean id="userRelateDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value="org.conan.search.weibo.dao.UserRelateDAO"/>
+	</bean>
+
+	<bean id="userDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value="org.conan.search.weibo.dao.UserDAO"/>
+	</bean>
+
+	<bean id="provincesDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value="org.conan.search.weibo.dao.ProvincesDAO"/>
+	</bean>
+
+	<bean id="userSignDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value="org.conan.search.weibo.dao.UserSignDAO"/>
+	</bean>
+
+	<bean id="loadFrequenceDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value="org.conan.search.weibo.dao.LoadFrequenceDAO"/>
+	</bean>
+
+	
+</beans>
