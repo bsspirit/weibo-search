@@ -58,7 +58,6 @@ public class LoadServiceImpl implements LoadService {
         int count = n < SpringService.WEIBO_LOAD_COUNT_200 ? n : SpringService.WEIBO_LOAD_COUNT_200;
         int i = 0;
         do {
-            fm.resetTimer(fm);
             UserWapper users = fm.getFollowersById(String.valueOf(uid), (int) count, (int) i);
             for (User u : users.getUsers()) {
                 try {
@@ -100,7 +99,6 @@ public class LoadServiceImpl implements LoadService {
         int i = 0;
 
         do {
-            fm.resetTimer(fm);
             UserWapper users = fm.getFriendsById(String.valueOf(uid), (int) count, (int) i);
             for (User u : users.getUsers()) {
                 try {
