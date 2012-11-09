@@ -133,7 +133,7 @@ public class LoadServiceImpl implements LoadService {
         List<LoadFrequenceDTO> list = loadFrequenceService.getLoadFrequencesPaging(map, new PageInObject(0, 1, "id", "desc")).getList();
         if (list.size() > 0) {
             long diff = MyDate.diffSecs(new Date(), list.get(0).getCreate_date());
-            if (diff <= SpringService.TIME_DAY * 7) {
+            if (diff <= SpringService.TIME_DAY * 30) {
                 return false;
             }
         }
