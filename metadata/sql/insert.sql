@@ -20,3 +20,8 @@ INSERT INTO t_user_sign(uid,area,reason,type,verified) values(2060750830,'数据
 
 
 insert into t_load_user(screen_name) values('Conan_Z');
+
+
+DELETE FROM t_load_user;
+INSERT INTO t_load_user(screen_name) 
+	SELECT screen_name FROM `v_fans_area` LIMIT 400,300;

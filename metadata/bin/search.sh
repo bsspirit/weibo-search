@@ -8,4 +8,4 @@ do
 	CLASSPATH=${CLASSPATH}:$f
 done
 #echo ${CLASSPATH}
-java -classpath ${CLASSPATH} org.conan.search.SpringMainRun $1 $2 $3 $4
+java -Xmx512m -Xms256m -classpath ${CLASSPATH} org.conan.search.SpringMainRun $1 $2 $3 $4
