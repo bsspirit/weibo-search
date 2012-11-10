@@ -21,10 +21,9 @@ public class SpringMainRun extends SpringInitialize {
     @Autowired
     TaskService taskService;
 
-    // AccessToken [accessToken=2.00v9eSLCzzDJbE8e025c068aftigRE,
-    // expireIn=664938, refreshToken=,uid=1999250817]
+//    AccessToken [accessToken=2.00AKoZEDzzDJbEde0742c13e9GYV4D, expireIn=157679999, refreshToken=,uid=2816038140]
     public static void main(String[] args) throws IOException {
-        String token = "2.00v9eSLCzzDJbE8e025c068aftigRE";
+        String token = "2.00AKoZEDzzDJbEde0742c13e9GYV4D";
         inputObj.put("token", token);
 
         SpringMainRun spring = getContext().getBean(SpringMainRun.class);
