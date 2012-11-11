@@ -24,4 +24,4 @@ insert into t_load_user(screen_name) values('Conan_Z');
 
 DELETE FROM t_load_user;
 INSERT INTO t_load_user(screen_name) 
-	SELECT screen_name FROM `v_fans_area` LIMIT 1000,1000;
+	SELECT screen_name FROM `v_fans_area` LIMIT 2000,1000;

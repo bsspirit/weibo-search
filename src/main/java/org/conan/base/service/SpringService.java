@@ -26,6 +26,7 @@ public interface SpringService {
     // String LIMIT_REPORT_FANS = "report.fans";
     String LIMIT_WEIBO_LOAD_FANS = "load.fans";
     String LIMIT_WEIBO_LOAD_FOLLOW = "load.follow";
+    String LIMIT_WEIBO_LOAD_TWEET = "load.tweet";
     // String LIMIT_WEIBO_LOAD_SOCIAL = "load.social";
 
     // 申请高级功能使用
@@ -41,6 +42,8 @@ public interface SpringService {
     long TIME_YEAR = TIME_MONTH * 12;
 
     // 微博读取数量
+    int WEIBO_LOAD_COUNT_10 = 10;
+    int WEIBO_LOAD_COUNT_100 = 100;
     int WEIBO_LOAD_COUNT_200 = 200;
     int WEIBO_LOAD_COUNT_500 = 500;
     int WEIBO_LOAD_COUNT_2000 = 2000;

@@ -9,7 +9,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 <!--
     This is project's spring-dao.xml.
     @author Conan Zhang
-    @date 2012-11-08
+    @date 2012-11-10
 -->
 
 	<bean id="accountDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
@@ -35,6 +35,11 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<bean id="userSignDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
 		<property name="mapperInterface" value="org.conan.search.weibo.dao.UserSignDAO"/>
+	</bean>
+
+	<bean id="tweetDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value="org.conan.search.weibo.dao.TweetDAO"/>
 	</bean>
 
 	<bean id="loadFrequenceDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">

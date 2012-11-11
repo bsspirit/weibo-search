@@ -21,6 +21,8 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 		<typeAlias alias="userDTO" type="org.conan.search.weibo.model.UserDTO"/>
 		<typeAlias alias="provincesDTO" type="org.conan.search.weibo.model.ProvincesDTO"/>
 		<typeAlias alias="userSignDTO" type="org.conan.search.weibo.model.UserSignDTO"/>
+		<typeAlias alias="tweetDTO" type="org.conan.search.weibo.model.TweetDTO"/>
+		<typeAlias alias="tweetSourceDTO" type="org.conan.search.weibo.model.TweetSourceDTO"/>
 		<typeAlias alias="loadFrequenceDTO" type="org.conan.search.weibo.model.LoadFrequenceDTO"/>
 		<typeAlias alias="loadUserDTO" type="org.conan.search.weibo.model.LoadUserDTO"/>
 	</typeAliases>
@@ -35,6 +37,8 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 		<mapper resource="org/conan/search/weibo/dao/user.xml" />
 		<mapper resource="org/conan/search/weibo/dao/provinces.xml" />
 		<mapper resource="org/conan/search/weibo/dao/userSign.xml" />
+		<mapper resource="org/conan/search/weibo/dao/tweet.xml" />
+		<mapper resource="org/conan/search/weibo/dao/tweetSource.xml" />
 		<mapper resource="org/conan/search/weibo/dao/loadFrequence.xml" />
 		<mapper resource="org/conan/search/weibo/dao/loadUser.xml" />
 	</mappers>

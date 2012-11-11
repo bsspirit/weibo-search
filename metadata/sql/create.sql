@@ -1,6 +1,6 @@
 #This is search CREATE SQL.
 #@author Conan Zhang
-#@date 2012-11-08
+#@date 2012-11-10
 
 use search;
 
@@ -75,6 +75,33 @@ CREATE TABLE t_user_sign(
     create_date TIMESTAMP NULL  DEFAULT now()
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE UNIQUE INDEX t_user_sign_IDX_0 on t_user_sign(uid,area);
+
+CREATE TABLE t_tweet(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tid BIGINT NOT NULL UNIQUE,
+    mid BIGINT NOT NULL UNIQUE,
+    uid BIGINT NOT NULL ,
+    retid BIGINT NULL ,
+    created_at DATETIME NOT NULL ,
+    text VARCHAR(256) NOT NULL ,
+    source_name VARCHAR(64) NOT NULL ,
+    reposts_count INT NULL  DEFAULT 0,
+    comments_count INT NULL  DEFAULT 0,
+    thumbnailPic VARCHAR(512) NULL ,
+    bmiddlePic VARCHAR(512) NULL ,
+    originalPic VARCHAR(512) NULL ,
+    create_date TIMESTAMP NULL  DEFAULT now()
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE  INDEX t_tweet_IDX_0 on t_tweet(retid);
+CREATE  INDEX t_tweet_IDX_1 on t_tweet(uid);
+
+CREATE TABLE t_tweet_source(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    url VARCHAR(512) NOT NULL ,
+    relation_ship VARCHAR(64) NULL  DEFAULT 'nofollow',
+    name VARCHAR(64) NOT NULL UNIQUE,
+    create_date TIMESTAMP NULL  DEFAULT now()
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE t_load_frequence(
     id INT PRIMARY KEY AUTO_INCREMENT,

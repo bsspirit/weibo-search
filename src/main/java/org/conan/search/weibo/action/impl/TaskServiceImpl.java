@@ -40,6 +40,7 @@ public class TaskServiceImpl implements TaskService {
     public void load(long uid, String token) throws WeiboException, IOException {
         loadService.follow(uid, SpringService.WEIBO_LOAD_COUNT_MAX, token);
         loadService.fans(uid, SpringService.WEIBO_LOAD_COUNT_MAX, token);
+        loadService.tweet(uid, token);
     }
 
     @Override
