@@ -138,10 +138,10 @@ public class LoadServiceImpl implements LoadService {
 
     @Override
     public void tweet(long uid, int total, String token) throws WeiboException {
-//        if (!loadLimit(uid, SpringService.LIMIT_WEIBO_LOAD_TWEET, 5)) {
-//            log.info(uid + " Load tweet limit! Try later.");
-//            return;
-//        }
+        // if (!loadLimit(uid, SpringService.LIMIT_WEIBO_LOAD_TWEET, 5)) {
+        // log.info(uid + " Load tweet limit! Try later.");
+        // return;
+        // }
 
         Timeline tm = new Timeline();
         tm.client.setToken(token);
@@ -186,7 +186,7 @@ public class LoadServiceImpl implements LoadService {
             num = count * page++;
             total = (int) status.getTotalNumber() > total ? total : (int) status.getTotalNumber();
             log.info(uid + " LOAD tweet count: " + num + "/" + total);
-        } while (num < total && num <= SpringService.WEIBO_LOAD_COUNT_2000);
+        } while (num < total);
         loadFrequenceService.insertLoadFrequence(new LoadFrequenceDTO(uid, SpringService.LIMIT_WEIBO_LOAD_TWEET, null));
     }
 
