@@ -156,7 +156,7 @@ public class LoadServiceImpl implements LoadService {
                 StatusWapper status = tm.getUserTimelineByUid(String.valueOf(uid), new Paging((page - 1), count));
                 for (Status s : status.getStatuses()) {
                     Map<String, Object> map = WeiboTransfer.tweet(s);
-                    
+
                     if (map.size() > 0) {
                         if (map.containsKey(WeiboTransfer.KEY_RETWEET)) {
                             TweetDTO retweet = (TweetDTO) map.get(WeiboTransfer.KEY_RETWEET);
@@ -192,7 +192,13 @@ public class LoadServiceImpl implements LoadService {
                 total = (int) status.getTotalNumber() > total ? total : (int) status.getTotalNumber();
                 log.info(uid + " LOAD tweet count: " + num + "/" + total);
             } catch (WeiboException we) {
-                log.error("Tweet :" + uid + ", " + we.getMessage());
+                String msg = we.getMessage();
+                log.error("Tweet :" + uid + ", " + msg);
+                int code = Integer.parseInt(msg.substring(0, msg.indexOf(":")));
+                
+                if (code < 500) {
+                    throw new WeiboException(we);
+                }
             }
         } while (num < total);
         loadFrequenceService.insertLoadFrequence(new LoadFrequenceDTO(uid, SpringService.LIMIT_WEIBO_LOAD_TWEET, null));
