@@ -4,5 +4,6 @@
 .settings
 target
 *.log
-search/metadata
 search/metadata/doc
+search-php/assets/*
+search-php/protected/runtime/*
