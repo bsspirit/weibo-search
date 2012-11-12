@@ -21,8 +21,10 @@ public class SpringMainRun extends SpringInitialize {
     @Autowired
     TaskService taskService;
 
-//    AccessToken [accessToken=2.00AKoZEDzzDJbEde0742c13e9GYV4D, expireIn=157679999, refreshToken=,uid=2816038140]
-//    AccessToken [accessToken=2.00v9eSLCzzDJbE8e025c068aftigRE, expireIn=664938, refreshToken=,uid=1999250817]
+    // AccessToken [accessToken=2.00AKoZEDzzDJbEde0742c13e9GYV4D,
+    // expireIn=157679999, refreshToken=,uid=2816038140]
+    // AccessToken [accessToken=2.00v9eSLCzzDJbE8e025c068aftigRE,
+    // expireIn=664938, refreshToken=,uid=1999250817]
     public static void main(String[] args) throws IOException {
         String token = "2.00AKoZEDzzDJbEde0742c13e9GYV4D";
         inputObj.put("token", token);
@@ -73,23 +75,23 @@ public class SpringMainRun extends SpringInitialize {
                     MyCast.emptyCheck(screen, "screen");
                     taskService.load(screen, token);
                 } catch (WeiboException we) {
-                    log.error(we.getMessage(),we);
+                    log.error(we.getMessage(), we);
                 } catch (IOException ioe) {
-                    log.error(ioe.getMessage());
+                    log.error(ioe.getMessage(), ioe);
                 }
                 break;
             case LOADDB:
                 try {
                     taskService.loadDB(token);
                 } catch (WeiboException we) {
-                    log.error(we.getMessage());
+                    log.error(we.getMessage(), we);
                 } catch (IOException ioe) {
-                    log.error(ioe.getMessage());
+                    log.error(ioe.getMessage(), ioe);
                 }
                 break;
             }
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
         }
     }
 }
