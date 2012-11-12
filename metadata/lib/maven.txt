@@ -1,2 +1,0 @@
-mvn install:install-file -Dfile=weibo4j-oauth2-beta2.1.jar -DgroupId=com.weibo -DartifactId=weibo4j -Dversion=oauth2-beta2.1 -Dpackaging=jar  -DgeneratePom=true -DcreateChecksum=true
-
