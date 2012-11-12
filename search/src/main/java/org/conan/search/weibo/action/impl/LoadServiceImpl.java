@@ -187,7 +187,7 @@ public class LoadServiceImpl implements LoadService {
                 total = (int) status.getTotalNumber() > total ? total : (int) status.getTotalNumber();
                 log.info(uid + " LOAD tweet count: " + num + "/" + total);
             } catch (WeiboException we) {
-                log.debug("Tweet :" + uid + ", " + we.getMessage());
+                log.error("Tweet :" + uid + ", " + we.getMessage());
             }
         } while (num < total);
         loadFrequenceService.insertLoadFrequence(new LoadFrequenceDTO(uid, SpringService.LIMIT_WEIBO_LOAD_TWEET, null));
