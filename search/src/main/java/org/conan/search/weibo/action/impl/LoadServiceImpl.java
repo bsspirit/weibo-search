@@ -173,10 +173,13 @@ public class LoadServiceImpl implements LoadService {
 
                     TweetDTO tweet = (TweetDTO) map.get(WeiboTransfer.KEY_TWEET);
                     TweetSourceDTO ts = (TweetSourceDTO) map.get(WeiboTransfer.KEY_TWEET_SOURCE);
-                    try {
-                        tweetSourceService.insertTweetSource(ts);
-                    } catch (Exception e) {
-                        log.debug("{tweet source:" + ts.getName() + "}" + e.getMessage());
+                    
+                    if (ts != null) {
+                        try {
+                            tweetSourceService.insertTweetSource(ts);
+                        } catch (Exception e) {
+                            log.debug("{tweet source:" + ts.getName() + "}" + e.getMessage());
+                        }
                     }
                     try {
                         tweetService.insertTweet(tweet);
