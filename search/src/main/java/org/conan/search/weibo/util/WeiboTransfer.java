@@ -62,7 +62,7 @@ public class WeiboTransfer {
             TweetDTO dto = new TweetDTO();
             dto.setTid(Long.parseLong(s.getId()));
             dto.setMid(Long.parseLong(s.getMid()));
-            dto.setUid(Long.parseLong(s.getUser().getId()));
+            dto.setUid(Long.parseLong(user.getId()));
             dto.setCreated_at(s.getCreatedAt());
             dto.setText(s.getText());
             dto.setReposts_count(s.getRepostsCount());

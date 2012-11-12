@@ -156,36 +156,38 @@ public class LoadServiceImpl implements LoadService {
                 StatusWapper status = tm.getUserTimelineByUid(String.valueOf(uid), new Paging((page - 1), count));
                 for (Status s : status.getStatuses()) {
                     Map<String, Object> map = WeiboTransfer.tweet(s);
-                    if (map.containsKey(WeiboTransfer.KEY_RETWEET)) {
-                        TweetDTO retweet = (TweetDTO) map.get(WeiboTransfer.KEY_RETWEET);
-                        TweetSourceDTO rets = (TweetSourceDTO) map.get(WeiboTransfer.KEY_RETWEET_SOURCE);
-                        try {
-                            tweetSourceService.insertTweetSource(rets);
-                        } catch (Exception e) {
-                            log.debug("{tweet source:" + rets.getName() + "}" + e.getMessage());
-                        }
-                        try {
-                            tweetService.insertTweet(retweet);
-                        } catch (Exception e) {
-                            log.debug("{tweet:" + retweet.getTid() + "}" + e.getMessage());
-                        }
-                    }
-
-                    TweetDTO tweet = (TweetDTO) map.get(WeiboTransfer.KEY_TWEET);
-                    TweetSourceDTO ts = (TweetSourceDTO) map.get(WeiboTransfer.KEY_TWEET_SOURCE);
                     
-                    if (ts != null) {
+                    if (map.size() > 0) {
+                        if (map.containsKey(WeiboTransfer.KEY_RETWEET)) {
+                            TweetDTO retweet = (TweetDTO) map.get(WeiboTransfer.KEY_RETWEET);
+                            TweetSourceDTO rets = (TweetSourceDTO) map.get(WeiboTransfer.KEY_RETWEET_SOURCE);
+                            try {
+                                tweetSourceService.insertTweetSource(rets);
+                            } catch (Exception e) {
+                                log.debug("{tweet source:" + rets.getName() + "}" + e.getMessage());
+                            }
+                            try {
+                                tweetService.insertTweet(retweet);
+                            } catch (Exception e) {
+                                log.debug("{tweet:" + retweet.getTid() + "}" + e.getMessage());
+                            }
+                        }
+
+                        TweetDTO tweet = (TweetDTO) map.get(WeiboTransfer.KEY_TWEET);
+                        TweetSourceDTO ts = (TweetSourceDTO) map.get(WeiboTransfer.KEY_TWEET_SOURCE);
+
                         try {
                             tweetSourceService.insertTweetSource(ts);
                         } catch (Exception e) {
                             log.debug("{tweet source:" + ts.getName() + "}" + e.getMessage());
                         }
+                        try {
+                            tweetService.insertTweet(tweet);
+                        } catch (Exception e) {
+                            log.debug("{tweet:" + tweet.getTid() + "}" + e.getMessage());
+                        }
                     }
-                    try {
-                        tweetService.insertTweet(tweet);
-                    } catch (Exception e) {
-                        log.debug("{tweet:" + tweet.getTid() + "}" + e.getMessage());
-                    }
+
                 }
                 total = (int) status.getTotalNumber() > total ? total : (int) status.getTotalNumber();
                 log.info(uid + " LOAD tweet count: " + num + "/" + total);
