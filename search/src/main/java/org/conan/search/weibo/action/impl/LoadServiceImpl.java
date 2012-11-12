@@ -151,6 +151,7 @@ public class LoadServiceImpl implements LoadService {
         int num = count * page;
 
         do {
+            tm.resetTimer(tm);
             StatusWapper status = tm.getUserTimelineByUid(String.valueOf(uid), new Paging(page, count));
             for (Status s : status.getStatuses()) {
                 Map<String, Object> map = WeiboTransfer.tweet(s);
