@@ -1,19 +1,17 @@
-<p>
-<a href="/setup/leaders">专家列表</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-<a href="/setup/recommendUsers">系统选出的用户列表</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-</p>
-
-<p>
-<a href="/setup/fans/uid">粉丝列表 </a>&nbsp;&nbsp;|&nbsp;&nbsp;
-<a href="/setup/follows/uid">关注列表 </a>&nbsp;&nbsp;|&nbsp;&nbsp;
-<a href="/setup/tweets/uid">微博列表 </a>&nbsp;&nbsp;|&nbsp;&nbsp;
-</p>
-
+<?php include_once dirname(__FILE__).'/../common/_quickBar.php';?>
 <h1>专家列表</h1>
+<?php include_once dirname(__FILE__).'/../common/_quickForm.php';?>
 
-<?php 
+<?php
+function operate($fansid){
+	$v = '<a href="/setup/leader?uid='.$fansid.'&area='.$_GET['area'].'">leader</a>&nbsp;&nbsp;|&nbsp;&nbsp';
+	$v .= '<a href="/setup/member?uid='.$fansid.'&area='.$_GET['area'].'">member</a>&nbsp;&nbsp;|&nbsp;&nbsp';
+	$v .= '<a href="/setup/delete?uid='.$fansid.'&area='.$_GET['area'].'">delete</a>&nbsp;&nbsp;';
+	return $v;
+}
 
-
+ 
+if(!empty($dataProvider)){
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'leaders-grid',
 	'dataProvider'=>$dataProvider,
@@ -35,7 +33,13 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			'value' => 'UserSign::mappingVerified($data->verified)',
 		),
 		'create_date',
+		array(
+				'name'=>'operate',
+				'type'=>'raw',
+				'value'=>'operate($data->uid)',
+		),
 	),
 ));
+}
 
 ?>

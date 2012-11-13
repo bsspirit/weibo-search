@@ -9,18 +9,26 @@ class SetupController extends Controller{
 	/**
 	 * 专家列表
 	 */
-	public function actionLeaders(){	
-		$condition = null;
-		$dataProvider=new CActiveDataProvider('VUserSign',array(
-				'criteria' => array(
-						'condition' => $condition,
-				),
-				'pagination'=>array(
-						'pageSize'=>50,
-				),
-		));
+	public function actionLeaders(){
+		$cond='';
+		if(!empty($_REQUEST['uid'])){
+			$cond.=' and uid='.$_REQUEST['uid'];
+		}
+		if(!empty($_REQUEST['area'])){
+			$cond.=" and area='".$_REQUEST['area']."'";
+		}
+		
+		$dp=null;
+		if(!empty($cond)){
+			$dp=new CActiveDataProvider('VUserSign',array(
+					'criteria' => array('condition'=>substr($cond,4)),
+					'pagination'=>array('pageSize'=>20),
+			));
+		}
+
 		$this->render('leaders',array(
-				'dataProvider'=>$dataProvider,
+				'dataProvider'=>$dp,
+				'form'=>FormService::create(array('uid','area')),
 		));
 	}
 	
@@ -35,11 +43,15 @@ class SetupController extends Controller{
 	 * 粉丝列表 
 	 */
 	public function actionFans(){
-		$dp=null;
+		$cond='';
 		if(!empty($_REQUEST['uid'])){
-			$cond='uid='.$_REQUEST['uid'];
+			$cond.=' and uid='.$_REQUEST['uid'];
+		}
+		
+		$dp=null;
+		if(!empty($cond)){
 			$dp=new CActiveDataProvider('VFans',array(
-					'criteria' => array('condition'=>$cond),
+					'criteria' => array('condition'=>substr($cond,4)),
 					'pagination'=>array('pageSize'=>10),
 			));
 		}
@@ -54,14 +66,19 @@ class SetupController extends Controller{
 	 * 关注列表 
 	 */
 	public function actionFollows(){
-		$dp=null;
+		$cond='';
 		if(!empty($_REQUEST['uid'])){
-			$cond='fansid='.$_REQUEST['uid'];
+			$cond.=' and fansid='.$_REQUEST['uid'];
+		}
+		
+		$dp=null;
+		if(!empty($cond)){
 			$dp=new CActiveDataProvider('VFollows',array(
-					'criteria' => array('condition'=>$cond),
+					'criteria' => array('condition'=>substr($cond,4)),
 					'pagination'=>array('pageSize'=>10),
 			));
 		}
+		
 		$this->render('follows',array(
 				'dataProvider'=>$dp,
 				'form'=>FormService::create(array('uid')),
@@ -114,18 +131,20 @@ class SetupController extends Controller{
 	 * 某领域的潜在用户
 	 */
 	public function actionAreaUsers(){
-		$dp=null;
+		$cond='';
 		if(!empty($_REQUEST['area'])){
-			$cond = "area='".$_REQUEST['area']."'";
+			$cond.=" and area='".$_REQUEST['area']."'";
+		}
+		
+		$dp=null;
+		if(!empty($cond)){
 			$dp=new CActiveDataProvider('vFansArea',array(
-					'criteria' => array(
-							'condition' => $cond,
-					),
-					'pagination'=>array(
-							'pageSize'=>10,
-					),
+					'criteria' => array('condition'=>substr($cond,4)),
+					'pagination'=>array('pageSize'=>10),
 			));
 		}
+		
+		
 		$this->render('areaUsers',array(
 				'dataProvider'=>$dp,
 				'form'=>FormService::create(array('area')),
