@@ -3,7 +3,7 @@
 	<form method="GET">
 		<?php if(!empty($form->uid)){?>
 		<div class="row">
-			User ID:<input name="uid" value="<?php echo $_GET['uid']?>" />
+			User ID:<input name="uid" value="<?php echo (empty($_GET['uid'])?'':$_GET['uid'])?>" />
 		</div>
 		<?php }?>
 
