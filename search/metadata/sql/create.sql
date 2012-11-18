@@ -22,7 +22,7 @@ CREATE TABLE t_user_relate(
     create_date TIMESTAMP NULL  DEFAULT now()
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE PRIMARY INDEX t_user_relate_IDX_0 on t_user_relate(uid,fansid);
-CREATE UNIQUE INDEX t_user_relate_IDX_1 on t_user_relate(fansid);
+CREATE INDEX t_user_relate_IDX_1 on t_user_relate(fansid);
 
 CREATE TABLE t_user(
     id INT PRIMARY KEY AUTO_INCREMENT,
