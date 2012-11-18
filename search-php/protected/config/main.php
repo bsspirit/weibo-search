@@ -10,8 +10,8 @@ return array(
 	'name'=>'微鱼管理后台',
 	'language'=>'zh_cn',
 	'preload'=>array('log'),
-	'defaultController'=>'quiz',
-	'theme'=>'blueribbon',
+	'defaultController'=>'site',
+// 	'theme'=>'blueribbon',
 	'import'=>array(
 		'application.models.*',
 		'application.services.*',
@@ -38,14 +38,14 @@ return array(
 			),
 		),
 			
-		'authManager'=>array(
-				'class'=>'CDbAuthManager',
-				'connectionID'=>'db',
-				'defaultRoles'=>array('guest'),//默认角色
-				'itemTable' => 'authitem',//认证项表名称
-				'itemChildTable' => 'authitemchild',//认证项父子关系
-				'assignmentTable' => 'authassignment',//认证项赋权关系
-		),
+// 		'authManager'=>array(
+// 				'class'=>'CDbAuthManager',
+// 				'connectionID'=>'db',
+// 				'defaultRoles'=>array('guest'),//默认角色
+// 				'itemTable' => 'authitem',//认证项表名称
+// 				'itemChildTable' => 'authitemchild',//认证项父子关系
+// 				'assignmentTable' => 'authassignment',//认证项赋权关系
+// 		),
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=search',
 			'emulatePrepare' => true,
@@ -67,9 +67,9 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
-				array(
-					'class'=>'CWebLogRoute',
-				),
+// 				array(
+// 					'class'=>'CWebLogRoute',
+// 				),
 			),
 		),
 	),

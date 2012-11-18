@@ -22,34 +22,42 @@
 <div class="container" id="page">
 
 	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+		<div id="logo">
+			<img src="<?php echo Yii::app()->request->baseUrl; ?>/images/weiyu.jpg" width=100/>
+		<?php echo CHtml::encode(Yii::app()->name); ?></div>
 	</div><!-- header -->
 
 	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
-		)); ?>
-	</div><!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
+		<ul id="nav">
+			
+		<?php if(Yii::app()->user->isGuest){?>
+		<li><a href="/site/login">登录</a></li>
+		<?php }?>
+	
+		<?php if(!Yii::app()->user->isGuest){?>
+		<li><a href="/setup/leaders">专家列表</a></li>
+		<li><a href="/setup/areaUsers">已选出用户</a></li>
+		<li><a href="/setup/fans">粉丝列表</a></li>
+		<li><a href="/setup/follows">关注列表</a></li>
+		<li><a href="/setup/tweets">微博列表</a></li>
+		<?php }?>
+		
+		<li><a href="/site/about"><span class="akey">关</span>于本站</a></li>
+		
+		<?php if(!Yii::app()->user->isGuest){?>
+		<li><a href="/site/logout"><span class="akey">退</span>出登陆</a></li>
+		<?php }?>
+	</ul>
+	<div class="c"></div>
+	</div>
 
 	<?php echo $content; ?>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
-
+	<p>Copyright © bsspirit@gmail.com |
+	   由 <a target="_blank" href="http://dataguru.cn">Dataguru</a>开发及运营
+	</p>
+	</div>
 </div><!-- page -->
 
 </body>
