@@ -43,7 +43,7 @@ public class WeiboTransfer {
         dto.setAvatar_large(u.getavatarLarge());
         dto.setOnline_status(u.getonlineStatus());
         dto.setRemark(u.getRemark());
-        dto.setVerified_reason(u.getVerified_reason());
+        dto.setVerified_reason(u.getVerified_reason()!=null?u.getVerified_reason().substring(0, 32):u.getVerified_reason());
         dto.setWeihao(u.getWeihao());
         dto.setLang(u.getLang());
         dto.setVerifiedType(u.getverifiedType());
