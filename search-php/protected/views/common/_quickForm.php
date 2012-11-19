@@ -9,7 +9,7 @@
 
 		<?php if(!empty($form->area)){?>
 		<div class="row">
-			Area:<?php echo Area::dropDownArea($_GET['area'])?>
+			Area:<?php echo Area::dropDownArea(empty($_GET['area'])?'':$_GET['area'])?>
 		</div>
 		
 		<?php }?>
