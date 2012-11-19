@@ -18,6 +18,7 @@ INSERT INTO t_user_sign(uid,area,reason,type,verified) values(1943577155,'数据
 INSERT INTO t_user_sign(uid,area,reason,type,verified) values(2722723393,'数据挖掘','choice','leader',false);
 INSERT INTO t_user_sign(uid,area,reason,type,verified) values(2060750830,'数据挖掘','choice','leader',false);
 
+INSERT INTO t_area(area,description) values('数据挖掘','数据挖掘用户寻找');
 
 insert into t_load_user(screen_name) values('Conan_Z');
 

@@ -4,7 +4,7 @@
 
 <?php 
 function operate($screen){
-	return '<a href="#">load</a>';
+	return '<a href="#">start</a>';
 }
 
 if(!empty($dataProvider)){

@@ -9,8 +9,9 @@
 
 		<?php if(!empty($form->area)){?>
 		<div class="row">
-			Area:<input name="area" value="<?php echo (empty($_GET['area'])?'数据挖掘':$_GET['area'])?>" />
+			Area:<?php echo Area::dropDownArea($_GET['area'])?>
 		</div>
+		
 		<?php }?>
 		<input type="submit" value="Search" />
 	</form>
