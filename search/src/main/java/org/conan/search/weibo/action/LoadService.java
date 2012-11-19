@@ -22,6 +22,8 @@ public interface LoadService {
     void tweet(long userid, long tid, String token) throws WeiboException;// 取tid之后的前200个
     
     // frequence check
+    int loadDiffDays(long uid, String type);
     boolean loadLimit(long uid, String type, int date) ;//true允许,false不允许,几天
+    
 
 }

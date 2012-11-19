@@ -10,36 +10,50 @@ function operate($fansid){
 	return $v;
 }
 
- 
+function leader_head($info){
+	$show = '<div class="view">';
+	$show .= '信息链&nbsp;&nbsp;:&nbsp;&nbsp;';
+	$show .= '<strong>'.$info['area']. '</strong>&nbsp;&nbsp;-->&nbsp;&nbsp;';
+	$show .= '<strong>专家</strong>('.$info['leaders'].'人)&nbsp;&nbsp;-->&nbsp;&nbsp;';
+	$show .= '<strong>选出的用户数</strong>('.$info['fans'].'人)&nbsp;&nbsp;-->&nbsp;&nbsp;';
+	$show .= '<strong>总微博数</strong>('.$info['tweets'].'条)';
+	$show .= '</div>';
+	return $show; 
+}
+
 if(!empty($dataProvider)){
-$this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'leaders-grid',
-	'dataProvider'=>$dataProvider,
-	'columns'=>array(
-		'id' ,
-		'uid',
-		'screen_name',
-		'area',
-		array(
-			'name'=>'Reason',
-			'value' => 'UserSign::mappingReason($data->reason)',
+	if(!empty($info)){
+		echo leader_head($info);	
+	}
+	
+	$this->widget('zii.widgets.grid.CGridView', array(
+		'id'=>'leaders-grid',
+		'dataProvider'=>$dataProvider,
+		'columns'=>array(
+			'id' ,
+			'uid',
+			'screen_name',
+			'area',
+			array(
+				'name'=>'Reason',
+				'value' => 'UserSign::mappingReason($data->reason)',
+			),
+			array(
+				'name'=>'Reason',
+				'value' => 'UserSign::mappingType($data->type)',
+			),
+			array(
+				'name'=>'verified',
+				'value' => 'UserSign::mappingVerified($data->verified)',
+			),
+			'create_date',
+			array(
+					'name'=>'operate',
+					'type'=>'raw',
+					'value'=>'operate($data->uid)',
+			),
 		),
-		array(
-			'name'=>'Reason',
-			'value' => 'UserSign::mappingType($data->type)',
-		),
-		array(
-			'name'=>'verified',
-			'value' => 'UserSign::mappingVerified($data->verified)',
-		),
-		'create_date',
-		array(
-				'name'=>'operate',
-				'type'=>'raw',
-				'value'=>'operate($data->uid)',
-		),
-	),
-));
+	));
 }
 
 ?>

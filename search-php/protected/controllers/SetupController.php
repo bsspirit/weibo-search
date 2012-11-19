@@ -29,24 +29,27 @@ class SetupController extends Controller{
 	 */
 	public function actionLeaders(){
 		$cond='';
+		$info=null;
 		if(!empty($_REQUEST['uid'])){
 			$cond.=' and uid='.$_REQUEST['uid'];
 		}
 		if(!empty($_REQUEST['area'])){
 			$cond.=" and area='".$_REQUEST['area']."'";
+			$info=SetupService::leadersInfo($_REQUEST['area']);
 		}
 		
 		$dp=null;
 		if(!empty($cond)){
 			$dp=new CActiveDataProvider('VUserSign',array(
 					'criteria' => array('condition'=>substr($cond,4)),
-					'pagination'=>array('pageSize'=>20),
+					'pagination'=>array('pageSize'=>20)
 			));
 		}
-
+		
 		$this->render('leaders',array(
 				'dataProvider'=>$dp,
 				'form'=>FormService::create(array('uid','area')),
+				'info'=>$info,
 		));
 	}
 	

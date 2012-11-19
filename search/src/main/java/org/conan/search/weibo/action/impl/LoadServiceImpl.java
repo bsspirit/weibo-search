@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.conan.base.service.PageInObject;
+import org.conan.base.service.PageOutObject;
 import org.conan.base.service.SpringService;
 import org.conan.base.util.MyDate;
 import org.conan.search.weibo.action.LoadService;
@@ -138,75 +139,61 @@ public class LoadServiceImpl implements LoadService {
 
     @Override
     public void tweet(long uid, int total, String token) throws WeiboException {
-        if (!loadLimit(uid, SpringService.LIMIT_WEIBO_LOAD_TWEET, 30)) {
+        int diffDays = loadDiffDays(uid, SpringService.LIMIT_WEIBO_LOAD_TWEET);
+        if (diffDays >= 0 && diffDays <= 3) {// 3天之前不重复取
             log.info(uid + " Load tweet limit! Try later.");
             return;
+            
+        } else if (diffDays > 1) {// 以前取过调用since_id
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("uid", uid);
+            PageOutObject<TweetDTO> pageOut = tweetService.getTweetsPaging(map, new PageInObject(0, 1, "id", "desc"));// 最后一条tweet
+            if (pageOut.getCount() > 0)
+                tweet(uid, pageOut.getList().get(0).getTid(), token);
+            
+        } else {// 新的没取过的
+            Timeline tm = new Timeline();
+            tm.client.setToken(token);
+
+            int count = total < SpringService.WEIBO_LOAD_COUNT_100 ? total : SpringService.WEIBO_LOAD_COUNT_100;
+            int page = 1;
+            int num = count * page;
+
+            do {
+                try {
+                    num = count * page++;// 504 Gateway time-out
+                    StatusWapper status = tm.getUserTimelineByUid(String.valueOf(uid), new Paging((page - 1), count));
+                    insertTweets(status);
+                    total = (int) status.getTotalNumber() > total ? total : (int) status.getTotalNumber();
+                    log.info(uid + " LOAD tweet count: " + num + "/" + total);
+                } catch (WeiboException we) {
+                    except(we, uid);
+                }
+            } while (num < total);
         }
-
-        Timeline tm = new Timeline();
-        tm.client.setToken(token);
-
-        int count = total < SpringService.WEIBO_LOAD_COUNT_100 ? total : SpringService.WEIBO_LOAD_COUNT_100;
-        int page = 1;
-        int num = count * page;
-
-        do {
-            try {
-                num = count * page++;// 504 Gateway time-out
-                StatusWapper status = tm.getUserTimelineByUid(String.valueOf(uid), new Paging((page - 1), count));
-                for (Status s : status.getStatuses()) {
-                    Map<String, Object> map = WeiboTransfer.tweet(s);
-
-                    if (map.size() > 0) {
-                        if (map.containsKey(WeiboTransfer.KEY_RETWEET)) {
-                            TweetDTO retweet = (TweetDTO) map.get(WeiboTransfer.KEY_RETWEET);
-                            TweetSourceDTO rets = (TweetSourceDTO) map.get(WeiboTransfer.KEY_RETWEET_SOURCE);
-                            try {
-                                tweetSourceService.insertTweetSource(rets);
-                            } catch (Exception e) {
-                                log.debug("{tweet source:" + rets.getName() + "}" + e.getMessage());
-                            }
-                            try {
-                                tweetService.insertTweet(retweet);
-                            } catch (Exception e) {
-                                log.debug("{tweet:" + retweet.getTid() + "}" + e.getMessage());
-                            }
-                        }
-
-                        TweetDTO tweet = (TweetDTO) map.get(WeiboTransfer.KEY_TWEET);
-                        TweetSourceDTO ts = (TweetSourceDTO) map.get(WeiboTransfer.KEY_TWEET_SOURCE);
-
-                        try {
-                            tweetSourceService.insertTweetSource(ts);
-                        } catch (Exception e) {
-                            log.debug("{tweet source:" + ts.getName() + "}" + e.getMessage());
-                        }
-                        try {
-                            tweetService.insertTweet(tweet);
-                        } catch (Exception e) {
-                            log.debug("{tweet:" + tweet.getTid() + "}" + e.getMessage());
-                        }
-                    }
-
-                }
-                total = (int) status.getTotalNumber() > total ? total : (int) status.getTotalNumber();
-                log.info(uid + " LOAD tweet count: " + num + "/" + total);
-            } catch (WeiboException we) {
-                String msg = we.getMessage();
-                log.error("Tweet :" + uid + ", " + msg);
-                int code = Integer.parseInt(msg.substring(0, msg.indexOf(":")));
-                
-                if (code < 500) {
-                    throw new WeiboException(we);
-                }
-            }
-        } while (num < total);
         loadFrequenceService.insertLoadFrequence(new LoadFrequenceDTO(uid, SpringService.LIMIT_WEIBO_LOAD_TWEET, null));
     }
 
     @Override
-    public void tweet(long userid, long tid, String token) throws WeiboException {
+    public void tweet(long uid, long tid, String token) throws WeiboException {
+        Timeline tm = new Timeline();
+        tm.client.setToken(token);
 
+        int num = 0;
+        int page = 1;
+        while (true) {
+            try {
+                StatusWapper status = tm.getUserTimelineByUid(String.valueOf(uid), new Paging(page++, SpringService.WEIBO_LOAD_COUNT_100, tid));
+                if (status == null || status.getStatuses() == null || status.getStatuses().size() == 0) {
+                    break;
+                }
+                num += status.getStatuses().size();
+                insertTweets(status);
+                log.info(uid + " LOAD tweet since " + tid + " Count " + num);
+            } catch (WeiboException we) {
+                except(we, uid);
+            }
+        }
     }
 
     /**
@@ -214,17 +201,71 @@ public class LoadServiceImpl implements LoadService {
      */
     @Override
     public boolean loadLimit(long uid, String type, int date) {
+        return loadDiffDays(uid, type) <= SpringService.TIME_DAY * date ? false : true;
+    }
+
+    /**
+     * 限制时间
+     */
+    @Override
+    public int loadDiffDays(long uid, String type) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("uid", uid);
         map.put("type", type);
         List<LoadFrequenceDTO> list = loadFrequenceService.getLoadFrequencesPaging(map, new PageInObject(0, 1, "id", "desc")).getList();
+        int days = -1;
         if (list.size() > 0) {
             long diff = MyDate.diffSecs(new Date(), list.get(0).getCreate_date());
-            if (diff <= SpringService.TIME_DAY * date) {
-                return false;
+            days = (int) Math.floor(diff / SpringService.TIME_DAY);
+        }
+        return days;
+    }
+
+    private void insertTweets(StatusWapper status) {
+        for (Status s : status.getStatuses()) {
+            Map<String, Object> map = WeiboTransfer.tweet(s);
+
+            if (map.size() > 0) {
+                if (map.containsKey(WeiboTransfer.KEY_RETWEET)) {
+                    TweetDTO retweet = (TweetDTO) map.get(WeiboTransfer.KEY_RETWEET);
+                    TweetSourceDTO rets = (TweetSourceDTO) map.get(WeiboTransfer.KEY_RETWEET_SOURCE);
+                    try {
+                        tweetSourceService.insertTweetSource(rets);
+                    } catch (Exception e) {
+                        log.debug("{tweet source:" + rets.getName() + "}" + e.getMessage());
+                    }
+                    try {
+                        tweetService.insertTweet(retweet);
+                    } catch (Exception e) {
+                        log.debug("{tweet:" + retweet.getTid() + "}" + e.getMessage());
+                    }
+                }
+
+                TweetDTO tweet = (TweetDTO) map.get(WeiboTransfer.KEY_TWEET);
+                TweetSourceDTO ts = (TweetSourceDTO) map.get(WeiboTransfer.KEY_TWEET_SOURCE);
+
+                try {
+                    tweetSourceService.insertTweetSource(ts);
+                } catch (Exception e) {
+                    log.debug("{tweet source:" + ts.getName() + "}" + e.getMessage());
+                }
+                try {
+                    tweetService.insertTweet(tweet);
+                } catch (Exception e) {
+                    log.debug("{tweet:" + tweet.getTid() + "}" + e.getMessage());
+                }
             }
         }
-        return true;
+    }
+
+    private void except(WeiboException we, long uid) throws WeiboException {
+        String msg = we.getMessage();
+        log.error("Tweet :" + uid + ", " + msg);
+        int code = Integer.parseInt(msg.substring(0, msg.indexOf(":")));
+
+        if (code < 500) {
+            throw new WeiboException(we);
+        }
     }
 
 }

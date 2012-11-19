@@ -1,19 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "t_load_frequence".
+ * This is the model class for table "v_load_freq".
  *
- * The followings are the available columns in table 't_load_frequence':
+ * The followings are the available columns in table 'v_load_freq':
  * @property integer $id
  * @property string $uid
+ * @property string $screen_name
  * @property string $type
  * @property string $create_date
  */
-class LoadFrequence extends CActiveRecord
+class VLoadFreq extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return LoadFrequence the static model class
+	 * @return VLoadFreq the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -25,7 +26,7 @@ class LoadFrequence extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 't_load_frequence';
+		return 'v_load_freq';
 	}
 
 	/**
@@ -36,13 +37,15 @@ class LoadFrequence extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('uid, type', 'required'),
+			array('uid, screen_name', 'required'),
+			array('id', 'numerical', 'integerOnly'=>true),
 			array('uid', 'length', 'max'=>20),
-			array('type', 'length', 'max'=>16),
+			array('screen_name', 'length', 'max'=>32),
+			array('type', 'length', 'max'=>43),
 			array('create_date', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, uid, type, create_date', 'safe', 'on'=>'search'),
+			array('id, uid, screen_name, type, create_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,6 +54,8 @@ class LoadFrequence extends CActiveRecord
 	 */
 	public function relations()
 	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
 		return array(
 		);
 	}
@@ -63,6 +68,7 @@ class LoadFrequence extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'uid' => 'Uid',
+			'screen_name' => 'Screen Name',
 			'type' => 'Type',
 			'create_date' => 'Create Date',
 		);
@@ -81,6 +87,7 @@ class LoadFrequence extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('uid',$this->uid,true);
+		$criteria->compare('screen_name',$this->screen_name,true);
 		$criteria->compare('type',$this->type,true);
 		$criteria->compare('create_date',$this->create_date,true);
 

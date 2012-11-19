@@ -40,6 +40,8 @@
 		<li><a href="/setup/fans">粉丝列表</a></li>
 		<li><a href="/setup/follows">关注列表</a></li>
 		<li><a href="/setup/tweets">微博列表</a></li>
+		
+		<li><a href="/task">任务管理</a></li>
 		<?php }?>
 		
 		<li><a href="/site/about"><span class="akey">关</span>于本站</a></li>
