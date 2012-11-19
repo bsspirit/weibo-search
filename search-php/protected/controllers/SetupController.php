@@ -73,7 +73,7 @@ class SetupController extends Controller{
 		if(!empty($cond)){
 			$dp=new CActiveDataProvider('VFansArea',array(
 					'criteria' => array('condition'=>substr($cond,4)),
-					'pagination'=>array('pageSize'=>10),
+					'pagination'=>array('pageSize'=>30),
 			));
 		}
 		
