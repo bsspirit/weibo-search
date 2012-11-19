@@ -4,7 +4,7 @@
 
 <?php 
 function operate($screen){
-	return '<a href="#">start</a>';
+	return '<a href="#">start</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">delete</a>';
 }
 
 if(!empty($dataProvider)){

@@ -5,6 +5,7 @@
 	
 	<a href="/task/waitList">等待中的任务</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 	<a href="/task/finishList">已执行的任务</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	<a href="/task/create">增加新任务</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 	<a href="/task/start">启动任务</a>
 
 </div>

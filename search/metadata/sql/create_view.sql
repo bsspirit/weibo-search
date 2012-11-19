@@ -52,6 +52,5 @@ CREATE VIEW v_load_freq AS
 DROP VIEW v_load_user;
 CREATE VIEW v_load_user AS
 	SELECT lu.id,u.uid,lu.screen_name,lu.create_date
-	FROM t_load_user lu ,t_user u
-	WHERE lu.screen_name=u.screen_name
+	FROM t_load_user lu  left join t_user u on lu.screen_name=u.screen_name
 	ORDER BY lu.id DESC;
