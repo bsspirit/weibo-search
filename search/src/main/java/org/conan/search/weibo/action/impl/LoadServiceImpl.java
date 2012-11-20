@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.conan.base.exception.WeiboExceptionParser;
 import org.conan.base.service.PageInObject;
 import org.conan.base.service.PageOutObject;
 import org.conan.base.service.SpringService;
@@ -145,14 +146,14 @@ public class LoadServiceImpl implements LoadService {
         if (diffDays >= 0 && diffDays <= 3) {// 3天之前不重复取
             log.info(uid + " Load tweet limit! Try later.");
             return;
-            
+
         } else if (diffDays > 1) {// 以前取过调用since_id
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("uid", uid);
             PageOutObject<TweetDTO> pageOut = tweetService.getTweetsPaging(map, new PageInObject(0, 1, "id", "desc"));// 最后一条tweet
             if (pageOut.getCount() > 0)
                 tweet(uid, pageOut.getList().get(0).getTid(), token);
-            
+
         } else {// 新的没取过的
             Timeline tm = new Timeline();
             tm.client.setToken(token);
@@ -169,7 +170,7 @@ public class LoadServiceImpl implements LoadService {
                     total = (int) status.getTotalNumber() > total ? total : (int) status.getTotalNumber();
                     log.info(uid + " LOAD tweet count: " + num + "/" + total);
                 } catch (WeiboException we) {
-                    except(we, uid);
+                    WeiboExceptionParser.parserCode(we, WeiboExceptionParser.SITE.CLIENT);
                 }
             } while (num < total);
         }
@@ -193,7 +194,7 @@ public class LoadServiceImpl implements LoadService {
                 insertTweets(status);
                 log.info(uid + " LOAD tweet since " + tid + " Count " + num);
             } catch (WeiboException we) {
-                except(we, uid);
+                WeiboExceptionParser.parserCode(we, WeiboExceptionParser.SITE.CLIENT);
             }
         }
     }
@@ -259,17 +260,6 @@ public class LoadServiceImpl implements LoadService {
             }
         }
     }
-
-    private void except(WeiboException we, long uid) throws WeiboException {
-        String msg = we.getMessage();
-        log.error("Tweet :" + uid + ", " + msg);
-        int code = Integer.parseInt(msg.substring(0, msg.indexOf(":")));
-
-        if (code < 500) {
-            throw new WeiboException(we);
-        }
-    }
-
 
     @Override
     public Long getUidByScreen(String screen, String token) throws WeiboException, IOException {

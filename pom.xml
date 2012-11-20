@@ -45,6 +45,7 @@
 
   <modules>
     <module>search</module>
+    <module>search-rest</module>
   </modules>
 
   <repositories>

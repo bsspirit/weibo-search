@@ -27,7 +27,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ));
 }
 ?>
+<div id="load-dialog"></div>
 
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	function actionDelete(obj){
 		var tid = $(obj).attr('tid');
@@ -45,24 +47,32 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		});
 	}
 
+	$("#load-dialog").dialog({
+		autoOpen: false,
+		height: 150,
+		width: 300,
+		modal: true
+	});
+
 	function actionStart(obj){
-		var tid = $(obj).attr('tid');
-		var path='/task/start?tid='+tid;
-		
+		var path='/task/start?tid='+$(obj).attr('tid');
 		$(obj).removeAttr('onclick');
 		$(obj).css({"color":"gray", "text-decoration":"none"});
 
-		$.ajax({
-			  url: path,
-			  success: function(obj){
-				  if(obj==1){
-					  alert('正在加载!');
-				  } else {
-					  alert('操作失败!');
-				  }
-			  }
-		});
-
-	}
+		$('#load-dialog').html('请稍等: 正在加载微博数据');
+		$('#load-dialog').dialog('option','title','数据初始化......');
+		$('#load-dialog').dialog('open');
 		
+		$.ajax({
+		  url: path,
+		  success: function(obj){
+			  if(obj=='1'){
+				  $('#load-dialog').dialog('close');
+			  } else {
+				  alert("读取失败!");
+				  $('#load-dialog').dialog('close');
+			  }
+		  }
+		});
+	}
 </script>

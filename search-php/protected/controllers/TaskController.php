@@ -72,13 +72,8 @@ class TaskController extends Controller{
 	public function actionStart($tid){//ajax
 		$model=LoadUser::model()->findByPk($tid);
 		if($model===null) throw new CHttpException(404,'The requested page does not exist.');
- 		$path = '/home/huang/deploy/search/';
-//		$path = 'd:/workspace/java/weibo-search/search/target/search/';
-		$cmd = $path.'search.sh -tLOAD -screen'.$model->screen_name;
-
-		exec($cmd);
-		echo 1;
-
+		$url = 'http://sapi.fens.me/api/load/screen/'.$model->screen_name;
+		echo HttpService::get($url);
 	}
 	
 	public function actionDelete($tid){//ajax

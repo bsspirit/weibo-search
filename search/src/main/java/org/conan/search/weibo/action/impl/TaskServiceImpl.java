@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.conan.base.exception.WeiboExceptionParser;
 import org.conan.base.service.SpringService;
 import org.conan.search.weibo.action.LoadService;
 import org.conan.search.weibo.action.TaskService;
@@ -39,8 +40,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void load(String screen, String token) throws WeiboException, IOException {
-        Long uid = loadService.getUidByScreen(screen, token);
-        load(uid, token);
+        try {
+            Long uid = loadService.getUidByScreen(screen, token);
+            load(uid, token);
+        } catch (WeiboException we) {
+            WeiboExceptionParser.parserCode(we, WeiboExceptionParser.SITE.CLIENT);
+            loadUserService.deleteLoadUser(new LoadUserDTO(screen, null));
+        }
     }
 
     @Override
@@ -50,7 +56,6 @@ public class TaskServiceImpl implements TaskService {
 
         for (LoadUserDTO dto : list) {
             load(dto.getScreen_name(), token);
-            loadUserService.deleteLoadUser(dto.getId());
         }
     }
 
