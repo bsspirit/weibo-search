@@ -54,10 +54,51 @@ class SetupController extends Controller{
 	}
 	
 	/**
-	 * 专家操作
+	 * 专家操作, update/delete
 	 */
-	public function actionLeader(){
+	public function actionLeader($lid,$type='leader'){//ajax
+		$model=UserSign::model()->findByPk($lid);
+		if($model===null) throw new CHttpException(404,'The requested page does not exist.');
+
+		switch($type){
+			case 'leader':
+			case 'member':
+				$model->type=$type;
+				$model->save();
+				break;
+			case 'delete':
+				$model->delete();
+				break;
+		}
 		
+		echo 1;		
+	}
+	
+	/**
+	 * 专家操作, create 
+	 */
+	public function actionLeaderCreate($uid,$area,$type='leader'){
+		if(empty($uid) || empty($area)) throw new CHttpException(401,'userid and area can\'t by empty.');
+		
+		$model = new UserSign();
+		$model->uid=$uid;
+		$model->area=$area;
+		
+		$m=$model->find('uid='.$uid.' and area="'.$area.'"');
+		if(!empty($m)){
+			echo 2 ;
+			return;
+		}
+		
+		$model->type=$type;		
+		$model->reason='choice';
+		
+		$user=User::model()->find('uid='.$uid);
+		if($user===null) throw new CHttpException(404,'The requested page does not exist.');
+		$model->verified=$user->verified;
+
+		$model->save();
+		echo 1;
 	}
 	
 	/**
@@ -84,31 +125,14 @@ class SetupController extends Controller{
 		));
 	}
 	
+// 	public function actionReject(){
+// 		if(isset($_GET['qid'])){
+// 			$quizStatus=$this->loadQuizStatus($_GET['qid']);
+// 			$quizStatus->status='REJECT';
+// 			$quizStatus->save();
+// 		}
+// 		echo 1;
+// 	}
 
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
-	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
 
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
 }

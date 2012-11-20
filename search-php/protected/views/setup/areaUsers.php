@@ -4,15 +4,15 @@
 
 <?php 
 function operate($fansid){
-	$v = '<a href="/setup/leader?uid='.$fansid.'&area='.$_GET['area'].'">leader</a>&nbsp;&nbsp;|&nbsp;&nbsp';
-	$v .= '<a href="/setup/member?uid='.$fansid.'&area='.$_GET['area'].'">member</a>&nbsp;&nbsp;';
+	$v = '<a href="javascript:void(0);" onclick="actionLeaderCreate(this)"  uid="'.$fansid.'" area="'.$_GET['area'].'" type="leader">leader</a>&nbsp;&nbsp;|&nbsp;&nbsp';
+	$v .= '<a href="javascript:void(0);" onclick="actionLeaderCreate(this)"  uid="'.$fansid.'" area="'.$_GET['area'].'" type="member">member</a>&nbsp;&nbsp;';
 	return $v;
 }
 
 function basic($fansid){
-	$v = '<a href="/setup/fans?uid='.$fansid.'" target="_blank">fans</a>&nbsp;&nbsp;|&nbsp;&nbsp';
-	$v .= '<a href="/setup/follows?uid='.$fansid.'" target="_blank">follow</a>&nbsp;&nbsp;|&nbsp;&nbsp';
-	$v .= '<a href="/setup/tweets?uid='.$fansid.'" target="_blank">tweet</a>&nbsp;&nbsp;';
+	$v = '<a href="/weibo/fans?uid='.$fansid.'" target="_blank">fans</a>&nbsp;&nbsp;|&nbsp;&nbsp';
+	$v .= '<a href="/weibo/follows?uid='.$fansid.'" target="_blank">follow</a>&nbsp;&nbsp;|&nbsp;&nbsp';
+	$v .= '<a href="/weibo/tweets?uid='.$fansid.'" target="_blank">tweet</a>&nbsp;&nbsp;';
 	return $v;
 }
 
@@ -38,5 +38,27 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ));
 }
 
-
 ?>
+
+<script type="text/javascript">
+	function actionLeaderCreate(obj){
+		var uid = $(obj).attr('uid');
+		var area = $(obj).attr('area');
+		var type = $(obj).attr('type');
+		var path='/setup/leaderCreate?uid='+uid+'&type='+type+'&area='+area;
+
+		$.ajax({
+			  url: path,
+			  success: function(obj){
+				  if(obj==1){
+					  alert('成功创建！');
+				  } else if(obj==2){
+					  alert('重复创建！');
+				  } else {
+					  alert('操作失败!');
+				  }
+			  }
+		});
+	}
+</script>
+
