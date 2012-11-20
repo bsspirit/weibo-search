@@ -14,9 +14,9 @@ class TaskController extends Controller{
 						'actions'=>array('*'),
 						'users'=>array('@'),
 				),
-				// 				array('deny',
-				// 						'users'=>array('*'),
-				// 				),
+// 				array('deny',
+// 						'users'=>array('*'),
+// 				),
 		);
 	}
 	
@@ -69,20 +69,20 @@ class TaskController extends Controller{
 		));
 	}
 	
-	public function actionStart(){
-		$this->render('index');
+	public function actionStart($tid){//ajax
+		$model=LoadUser::model()->findByPk($tid);
+		if($model===null) throw new CHttpException(404,'The requested page does not exist.');
+		$path = '/home/huang/deploy/search/';
+		$cmd = 'search.sh -tLOAD -screen'.$model->screen_name;
+		exec($path.$cmd);
+		echo '1';
 	}
 	
-	public function actionDelete($id){
-		if(Yii::app()->request->isPostRequest){
-			$model=LoadUser::model()->findByPk($id);
-			if($model===null)
-				throw new CHttpException(404,'The requested page does not exist.');
-			$model->delete();
-			echo '1';
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+	public function actionDelete($tid){//ajax
+		$model=LoadUser::model()->findByPk($tid);
+		if($model===null) throw new CHttpException(404,'The requested page does not exist.');
+		$model->delete();
+		echo '1';
 	}
 
 }
