@@ -1,5 +1,6 @@
 package org.conan.search.weibo.action.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.conan.search.weibo.action.WeiboActionService;
 import org.conan.search.weibo.model.LoadFrequenceDTO;
 import org.conan.search.weibo.model.TweetDTO;
 import org.conan.search.weibo.model.TweetSourceDTO;
+import org.conan.search.weibo.model.UserDTO;
 import org.conan.search.weibo.model.UserRelateDTO;
 import org.conan.search.weibo.service.LoadFrequenceService;
 import org.conan.search.weibo.service.TweetService;
@@ -266,6 +268,51 @@ public class LoadServiceImpl implements LoadService {
         if (code < 500) {
             throw new WeiboException(we);
         }
+    }
+
+
+    @Override
+    public Long getUidByScreen(String screen, String token) throws WeiboException, IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("screen_name", screen);
+
+        UserDTO dto = userService.getUserOne(map);
+        Long uid = null;
+        if (dto != null && dto.getUid() > 0) {
+            uid = dto.getUid();
+        } else {
+            User u = action.user(screen, token);
+            uid = Long.parseLong(u.getId());
+            try {
+                userService.insertUser(WeiboTransfer.user(u));
+            } catch (Exception e) {
+                log.warn("{user:" + uid + "}" + e.getMessage());
+            }
+        }
+        log.info(uid + "," + screen);
+        return uid;
+    }
+
+    @Override
+    public String getScreenByUid(long uid, String token) throws WeiboException, IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("uid", uid);
+
+        UserDTO dto = userService.getUserOne(map);
+        String screen = null;
+        if (dto != null && dto.getUid() > 0) {
+            screen = dto.getScreen_name();
+        } else {
+            User u = action.user(uid, token);
+            screen = u.getScreenName();
+            try {
+                userService.insertUser(WeiboTransfer.user(u));
+            } catch (Exception e) {
+                log.warn("{user:" + uid + "}" + e.getMessage());
+            }
+        }
+        log.info(uid + "," + screen);
+        return screen;
     }
 
 }

@@ -1,5 +1,7 @@
 package org.conan.search.weibo.action;
 
+import java.io.IOException;
+
 import weibo4j.model.WeiboException;
 
 /**
@@ -25,5 +27,8 @@ public interface LoadService {
     int loadDiffDays(long uid, String type);
     boolean loadLimit(long uid, String type, int date) ;//true允许,false不允许,几天
     
+    // uid and screen
+    Long getUidByScreen(String screen, String token) throws WeiboException, IOException ;
+    String getScreenByUid(long uid, String token) throws WeiboException, IOException ;
 
 }
