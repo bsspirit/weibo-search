@@ -29,7 +29,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ?>
 <div id="load-dialog"></div>
 
-<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-ui-1.8.20.custom.min.js"></script>
 <script type="text/javascript">
 	function actionDelete(obj){
 		var tid = $(obj).attr('tid');

@@ -14,12 +14,10 @@
 
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-	<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery-ui-1.8.20.custom.css" />
 	
-	<!-- 
-	<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-	<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-	-->
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-1.7.2.min.js"></script>
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-ui-1.8.20.custom.min.js"></script>
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 

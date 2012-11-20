@@ -69,6 +69,21 @@ class TaskController extends Controller{
 		));
 	}
 	
+	public function actionAdd($screen){
+		$model=new LoadUser();
+		$model->screen_name=$screen;
+		$row=$model->find("screen_name='".$screen."'");
+		if(!empty($row)){
+			echo 2;
+			return;			
+		}
+		if($model->save()){
+			echo 1;
+			return;	
+		}
+		echo -1;
+	}
+	
 	public function actionStart($tid){//ajax
 		$model=LoadUser::model()->findByPk($tid);
 		if($model===null) throw new CHttpException(404,'The requested page does not exist.');
