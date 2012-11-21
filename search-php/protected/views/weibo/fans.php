@@ -8,7 +8,7 @@ function operate($screen){
 	return $html;
 }
 
-function link($uid,$label){
+function link($uid='',$label=''){
 	$html = '';
 // 	if($type=='screen'){
 		$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
