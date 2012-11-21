@@ -8,12 +8,11 @@ function operate($screen){
 	return $html;
 }
 
-// function link($uid,$label,$type){
-// 	$html = '';
-// 	switch($type){
-// 		case 'screen':
-// 			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
-// 			break;
+function link($uid,$label,$type){
+	$html = '';
+	if($type=='screen'){
+		$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
+	}
 // 		case 'fans':
 // 			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
 // 			break;
@@ -23,9 +22,8 @@ function operate($screen){
 // 		case 'tweet':
 // 			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
 // 			break;
-// 	}
-// 	return $html;
-// }
+	return $html;
+}
 
 function portrait($url){
 	return '<img src="'.$url.'"/>';
@@ -42,11 +40,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			'value' => 'portrait($data->profile_image_url)',
 		),
 		'fansid',
-// // 		array(
-// // 			'name'=>'screen_name',
-// // 			'type'=>'raw',
-// // 			'value' => 'link($data->fansid,$data->screen_name,"screen")',
-// // 		),
+		array(
+			'name'=>'screen_name',
+			'type'=>'raw',
+			'value' => 'link($data->fansid,$data->screen_name,"screen")',
+		),
 // // 		array(
 // // 			'name'=>'follows',
 // // 			'type'=>'raw',
