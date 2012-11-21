@@ -8,11 +8,11 @@ function operate($screen){
 	return $html;
 }
 
-function link($uid,$label,$type){
+function link($uid,$label){
 	$html = '';
-	if($type=='screen'){
+// 	if($type=='screen'){
 		$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
-	}
+// 	}
 // 		case 'fans':
 // 			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
 // 			break;
@@ -43,7 +43,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'name'=>'screen_name',
 			'type'=>'raw',
-			'value' => 'link($data->fansid,$data->screen_name,"screen")',
+			'value' => 'link($data->fansid,$data->screen_name)',
 		),
 // // 		array(
 // // 			'name'=>'follows',
