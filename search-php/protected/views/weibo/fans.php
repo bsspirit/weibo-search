@@ -50,17 +50,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'name'=>'follows',
 			'type'=>'raw',
-			'value' => 'link($data->fansid,$data->friends_count,"follow")',
+			'value' => 'linkLabel($data->fansid,$data->friends_count,"follow")',
 		),
 		array(
 			'name'=>'fans',
 			'type'=>'raw',
-			'value' => 'link($data->fansid,$data->followers_count,"fans")',
+			'value' => 'linkLabel($data->fansid,$data->followers_count,"fans")',
 		),
 		array(
 			'name'=>'tweets',
 			'type'=>'raw',
-			'value' => 'link($data->fansid,$data->statuses_count,"tweet")',
+			'value' => 'linkLabel($data->fansid,$data->statuses_count,"tweet")',
 		),
 		array(
 			'name'=>'verified',
