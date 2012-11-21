@@ -8,7 +8,7 @@ function operate($screen){
 	return $html;
 }
 
-function link($uid='',$label=''){
+function linkLabel($uid,$label){
 	$html = '';
 // 	if($type=='screen'){
 		$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
@@ -43,7 +43,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'name'=>'screen_name',
 			'type'=>'raw',
-			'value' => 'link($data->fansid,$data->screen_name)',
+			'value' => 'linkLabel($data->fansid,$data->screen_name)',
 		),
 // // 		array(
 // // 			'name'=>'follows',
