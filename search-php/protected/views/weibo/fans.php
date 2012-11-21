@@ -3,78 +3,78 @@
 <?php include_once dirname(__FILE__).'/../common/_quickForm.php';?>
 
 <?php 
-function operate($screen){
-	$html = '<a href="javascript:void(0);" onclick="actionAdd(this)" screen="'.$screen.'">Add Task</a>';
-	return $html;
-}
+// function operate($screen){
+// 	$html = '<a href="javascript:void(0);" onclick="actionAdd(this)" screen="'.$screen.'">Add Task</a>';
+// 	return $html;
+// }
 
-function link($uid,$label,$type){
-	$html = '';
-	/*switch($type){
-		case 'screen':
-			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
-			break;
-		case 'fans':
-			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
-			break;
-		case 'follow':
-			$html = '<a target="_blank" href="/weibo/follows?uid='.$uid.'">'.$label.'</a>';
-			break;
-		case 'tweet':
-			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
-			break;
-	}*/
-	return $html;
-}
+// function link($uid,$label,$type){
+// 	$html = '';
+// 	/*switch($type){
+// 		case 'screen':
+// 			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
+// 			break;
+// 		case 'fans':
+// 			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
+// 			break;
+// 		case 'follow':
+// 			$html = '<a target="_blank" href="/weibo/follows?uid='.$uid.'">'.$label.'</a>';
+// 			break;
+// 		case 'tweet':
+// 			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
+// 			break;
+// 	}*/
+// 	return $html;
+// }
 
-function portrait($url){
-	return '<img src="'.$url.'"/>';
-}
+// function portrait($url){
+// 	return '<img src="'.$url.'"/>';
+// }
 
-if(!empty($dataProvider)){
-$this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'fans-grid',
-	'dataProvider'=>$dataProvider,
-	'columns'=>array(
-		array(
-			'name'=>'portrait',
-			'type'=>'raw',
-			'value' => 'portrait($data->profile_image_url)',
-		),
-		'fansid',
+// if(!empty($dataProvider)){
+// $this->widget('zii.widgets.grid.CGridView', array(
+// 	'id'=>'fans-grid',
+// 	'dataProvider'=>$dataProvider,
+// 	'columns'=>array(
 // 		array(
-// 			'name'=>'screen_name',
+// 			'name'=>'portrait',
 // 			'type'=>'raw',
-// 			'value' => 'link($data->fansid,$data->screen_name,"screen")',
+// 			'value' => 'portrait($data->profile_image_url)',
 // 		),
+// 		'fansid',
+// // 		array(
+// // 			'name'=>'screen_name',
+// // 			'type'=>'raw',
+// // 			'value' => 'link($data->fansid,$data->screen_name,"screen")',
+// // 		),
+// // 		array(
+// // 			'name'=>'follows',
+// // 			'type'=>'raw',
+// // 			'value' => 'link($data->fansid,$data->friends_count,"follow")',
+// // 		),
+// // 		array(
+// // 			'name'=>'fans',
+// // 			'type'=>'raw',
+// // 			'value' => 'link($data->fansid,$data->followers_count,"fans")',
+// // 		),
+// // 		array(
+// // 			'name'=>'tweets',
+// // 			'type'=>'raw',
+// // 			'value' => 'link($data->fansid,$data->statuses_count,"tweet")',
+// // 		),
 // 		array(
-// 			'name'=>'follows',
-// 			'type'=>'raw',
-// 			'value' => 'link($data->fansid,$data->friends_count,"follow")',
+// 			'name'=>'verified',
+// 			'value' => 'UserSign::mappingVerified($data->verified)',
 // 		),
+// 		'created_at',
 // 		array(
-// 			'name'=>'fans',
+// 			'name'=>'operate',
 // 			'type'=>'raw',
-// 			'value' => 'link($data->fansid,$data->followers_count,"fans")',
+// 			'value'=>'operate($data->screen_name)',
 // 		),
-// 		array(
-// 			'name'=>'tweets',
-// 			'type'=>'raw',
-// 			'value' => 'link($data->fansid,$data->statuses_count,"tweet")',
-// 		),
-		array(
-			'name'=>'verified',
-			'value' => 'UserSign::mappingVerified($data->verified)',
-		),
-		'created_at',
-		array(
-			'name'=>'operate',
-			'type'=>'raw',
-			'value'=>'operate($data->screen_name)',
-		),
-	),
-));
-}
+// 	),
+// ));
+// }
 ?>
 
 <script type="text/javascript">
