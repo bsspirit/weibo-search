@@ -10,7 +10,7 @@ function operate($screen){
 
 function link($uid,$label,$type){
 	$html = '';
-	switch($type){
+	/*switch($type){
 		case 'screen':
 			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
 			break;
@@ -23,7 +23,7 @@ function link($uid,$label,$type){
 		case 'tweet':
 			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
 			break;
-	}
+	}*/
 	return $html;
 }
 
