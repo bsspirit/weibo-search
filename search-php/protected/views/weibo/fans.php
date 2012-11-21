@@ -9,6 +9,10 @@ function operate($screen){
 }
 
 function linkLabel($uid,$label){
+	print_r($uid);
+	print_r('=====');
+	print_r($label);
+	
 	$html = '';
 // 	if($type=='screen'){
 		$html = '<a target="_blank" href="/weibo/profile?uid=aaa">aaa</a>';
