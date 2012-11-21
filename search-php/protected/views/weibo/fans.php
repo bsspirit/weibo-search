@@ -8,24 +8,24 @@ function operate($screen){
 	return $html;
 }
 
-function link($uid,$label,$type){
-	$html = '';
-	switch($type){
-		case 'screen':
-			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
-			break;
-		case 'fans':
-			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
-			break;
-		case 'follow':
-			$html = '<a target="_blank" href="/weibo/follows?uid='.$uid.'">'.$label.'</a>';
-			break;
-		case 'tweet':
-			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
-			break;
-	}
-	return $html;
-}
+// function link($uid,$label,$type){
+// 	$html = '';
+// 	switch($type){
+// 		case 'screen':
+// 			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
+// 			break;
+// 		case 'fans':
+// 			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
+// 			break;
+// 		case 'follow':
+// 			$html = '<a target="_blank" href="/weibo/follows?uid='.$uid.'">'.$label.'</a>';
+// 			break;
+// 		case 'tweet':
+// 			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
+// 			break;
+// 	}
+// 	return $html;
+// }
 
 function portrait($url){
 	return '<img src="'.$url.'"/>';
