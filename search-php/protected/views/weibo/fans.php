@@ -31,17 +31,17 @@
 // 	return '<img src="'.$url.'"/>';
 // }
 
-// if(!empty($dataProvider)){
-// $this->widget('zii.widgets.grid.CGridView', array(
-// 	'id'=>'fans-grid',
-// 	'dataProvider'=>$dataProvider,
-// 	'columns'=>array(
-// 		array(
-// 			'name'=>'portrait',
-// 			'type'=>'raw',
-// 			'value' => 'portrait($data->profile_image_url)',
-// 		),
-// 		'fansid',
+if(!empty($dataProvider)){
+$this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'fans-grid',
+	'dataProvider'=>$dataProvider,
+	'columns'=>array(
+		array(
+			'name'=>'portrait',
+			'type'=>'raw',
+			'value' => 'portrait($data->profile_image_url)',
+		),
+		'fansid',
 // // 		array(
 // // 			'name'=>'screen_name',
 // // 			'type'=>'raw',
@@ -72,9 +72,9 @@
 // 			'type'=>'raw',
 // 			'value'=>'operate($data->screen_name)',
 // 		),
-// 	),
-// ));
-// }
+	),
+));
+}
 ?>
 
 <script type="text/javascript">
