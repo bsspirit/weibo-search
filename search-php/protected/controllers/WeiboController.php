@@ -24,6 +24,22 @@ class WeiboController extends Controller{
 	}
 	
 	/**
+	 * 个人资料页
+	 */
+	public function actionProfile(){
+		$model=null;
+		if(!empty($_REQUEST['uid'])){
+			$model=User::model()->find("uid=".$_REQUEST['uid']);
+			if($model===null) throw new CHttpException(404,'The requested page does not exist.');
+		}
+	
+		$this->render('profile',array(
+			'model'=>$model,
+			'form'=>FormService::create(array('uid')),
+		));
+	}
+	
+	/**
 	 * 粉丝列表
 	 */
 	public function actionFans(){

@@ -227,3 +227,10 @@ div.search-form
 {
 	background: #80CFFF;
 }
+
+.l{float:left;}
+.r{float:right;}
+.c{both:clear;}
+
+.h25{height:25px;}
+.h40{height:40px;}
