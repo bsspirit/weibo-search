@@ -48,9 +48,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			'value' => 'link($data->fansid,$data->screen_name,screen)',
 		),
 		array(
-				'name'=>'follows',
-				'type'=>'raw',
-				'value' => 'link($data->fansid,$data->friends_count,follow)',
+			'name'=>'follows',
+			'type'=>'raw',
+			'value' => 'link($data->fansid,$data->friends_count,follow)',
 		),
 		array(
 			'name'=>'fans',

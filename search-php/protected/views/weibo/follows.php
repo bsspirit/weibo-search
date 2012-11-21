@@ -60,7 +60,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'name'=>'tweets',
 			'type'=>'raw',
-			'value' => 'link($data->fansid,$data->statuses_count,tweet)',
+			'value' => 'link($data->uid,$data->statuses_count,tweet)',
 		),
 		array(
 			'name'=>'verified',

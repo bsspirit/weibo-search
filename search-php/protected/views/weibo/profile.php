@@ -9,7 +9,7 @@
 		<img src="<?php echo $model->avatar_large?>" />
 	</div>
 	
-	<div class="view l" style="margin:10px;width:70%;">
+	<div class="view l" style="margin:10px;width:65%;">
 		<div class="row h25">
 			User Id&nbsp;&nbsp;:&nbsp;&nbsp;<?php echo $model->uid?>
 		</div>
