@@ -204,7 +204,7 @@ public class LoadServiceImpl implements LoadService {
      */
     @Override
     public boolean loadLimit(long uid, String type, int date) {
-        return loadDiffDays(uid, type) <= SpringService.TIME_DAY * date ? false : true;
+        return loadDiffDays(uid, type) <= SpringService.TIME_DAY * date ? true : false;
     }
 
     /**
