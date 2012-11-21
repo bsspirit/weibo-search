@@ -8,14 +8,12 @@ function operate($screen){
 	return $html;
 }
 
-function linkLabel($uid,$label){
-	print_r($uid);
-	print_r('=====');
-	print_r($label);
-	
+function linkLabel($uid,$label,$type){
 	$html = '';
-// 	if($type=='screen'){
-		$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
+ 	switch($type){
+ 		case 'screen':
+			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
+			break;
 // 	}
 // 		case 'fans':
 // 			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
@@ -26,6 +24,7 @@ function linkLabel($uid,$label){
 // 		case 'tweet':
 // 			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
 // 			break;
+ 	}
 	return $html;
 }
 
@@ -47,7 +46,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'name'=>'screen_name',
 			'type'=>'raw',
-			'value' => 'linkLabel($data->fansid,$data->screen_name)',
+			'value' => 'linkLabel($data->fansid,$data->screen_name,"screen")',
 		),
 // // 		array(
 // // 			'name'=>'follows',
