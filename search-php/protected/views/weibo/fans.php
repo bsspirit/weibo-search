@@ -15,7 +15,7 @@ function linkLabel($uid,$label){
 	
 	$html = '';
 // 	if($type=='screen'){
-		$html = '<a target="_blank" href="/weibo/profile?uid=aaa">aaa</a>';
+		$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
 // 	}
 // 		case 'fans':
 // 			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
