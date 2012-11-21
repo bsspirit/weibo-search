@@ -14,16 +14,15 @@ function linkLabel($uid,$label,$type){
  		case 'screen':
 			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
 			break;
-// 	}
-// 		case 'fans':
-// 			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
-// 			break;
-// 		case 'follow':
-// 			$html = '<a target="_blank" href="/weibo/follows?uid='.$uid.'">'.$label.'</a>';
-// 			break;
-// 		case 'tweet':
-// 			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
-// 			break;
+		case 'fans':
+			$html = '<a target="_blank" href="/weibo/fans?uid='.$uid.'">'.$label.'</a>';
+			break;
+		case 'follow':
+			$html = '<a target="_blank" href="/weibo/follows?uid='.$uid.'">'.$label.'</a>';
+			break;
+		case 'tweet':
+			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
+			break;
  	}
 	return $html;
 }
@@ -48,21 +47,21 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			'type'=>'raw',
 			'value' => 'linkLabel($data->fansid,$data->screen_name,"screen")',
 		),
-// // 		array(
-// // 			'name'=>'follows',
-// // 			'type'=>'raw',
-// // 			'value' => 'link($data->fansid,$data->friends_count,"follow")',
-// // 		),
-// // 		array(
-// // 			'name'=>'fans',
-// // 			'type'=>'raw',
-// // 			'value' => 'link($data->fansid,$data->followers_count,"fans")',
-// // 		),
-// 		array(
-// 			'name'=>'tweets',
-// 			'type'=>'raw',
-// 			'value' => 'link($data->fansid,$data->statuses_count,"tweet")',
-// 		),
+		array(
+			'name'=>'follows',
+			'type'=>'raw',
+			'value' => 'link($data->fansid,$data->friends_count,"follow")',
+		),
+		array(
+			'name'=>'fans',
+			'type'=>'raw',
+			'value' => 'link($data->fansid,$data->followers_count,"fans")',
+		),
+		array(
+			'name'=>'tweets',
+			'type'=>'raw',
+			'value' => 'link($data->fansid,$data->statuses_count,"tweet")',
+		),
 		array(
 			'name'=>'verified',
 			'value' => 'UserSign::mappingVerified($data->verified)',
