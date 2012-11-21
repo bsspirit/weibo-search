@@ -26,25 +26,37 @@ class TaskController extends Controller{
 	}
 	
 	public function actionWaitList(){
+		$cond='';
+		if(!empty($_REQUEST['uid'])){
+			$cond.=' and uid='.$_REQUEST['uid'];
+		}
+		
 		$dp=new CActiveDataProvider('VLoadUser',array(
-			'criteria' => array('condition'=>''),
-			'pagination'=>array('pageSize'=>20),
-			'sort'=>array('defaultOrder'=>'id ASC'),
+				'criteria' => array('condition'=>substr($cond,4)),
+				'pagination'=>array('pageSize'=>20),
+				'sort'=>array('defaultOrder'=>'id ASC'),
 		));
 
 		$this->render('waitList',array(
 			'dataProvider'=>$dp,
+			'form'=>FormService::create(array('uid')),
 		));
 	}
 	
 	public function actionFinishList(){
+		$cond='';
+		if(!empty($_REQUEST['uid'])){
+			$cond.=' and uid='.$_REQUEST['uid'];
+		}
+		
 		$dp=new CActiveDataProvider('VLoadFreq',array(
-			'criteria' => array('condition'=>''),
-			'pagination'=>array('pageSize'=>20),
+				'criteria' => array('condition'=>empty($cond)?'':substr($cond,4)),
+				'pagination'=>array('pageSize'=>20),
 		));
 
 		$this->render('finishList',array(
 			'dataProvider'=>$dp,
+			'form'=>FormService::create(array('uid')),
 		));
 	}
 	
