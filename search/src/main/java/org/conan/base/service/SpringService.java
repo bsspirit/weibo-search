@@ -46,6 +46,7 @@ public interface SpringService {
     int WEIBO_LOAD_COUNT_100 = 100;
     int WEIBO_LOAD_COUNT_200 = 200;
     int WEIBO_LOAD_COUNT_500 = 500;
+    int WEIBO_LOAD_COUNT_1000 = 1000;
     int WEIBO_LOAD_COUNT_2000 = 2000;
     int WEIBO_LOAD_COUNT_5000 = 5000;
     int WEIBO_LOAD_CURSOR = 0;

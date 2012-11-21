@@ -21,7 +21,7 @@ CREATE TABLE t_user_relate(
     fansid BIGINT NOT NULL ,
     create_date TIMESTAMP NULL  DEFAULT now()
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE PRIMARY INDEX t_user_relate_IDX_0 on t_user_relate(uid,fansid);
+ALTER TABLE t_user_relate ADD PRIMARY KEY t_user_relate_IDX_0(uid,fansid);
 CREATE INDEX t_user_relate_IDX_1 on t_user_relate(fansid);
 
 CREATE TABLE t_user(

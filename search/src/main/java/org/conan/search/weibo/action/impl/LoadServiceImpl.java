@@ -3,8 +3,10 @@ package org.conan.search.weibo.action.impl;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.conan.base.exception.WeiboExceptionParser;
@@ -63,37 +65,86 @@ public class LoadServiceImpl implements LoadService {
 
     @Override
     public void fans(long uid, int n, String token) throws WeiboException {
-        if (!loadLimit(uid, SpringService.LIMIT_WEIBO_LOAD_FANS, 30)) {
+        int diffDays = loadDiffDays(uid, SpringService.LIMIT_WEIBO_LOAD_FANS);
+        if (diffDays >= 0 && diffDays <= 3) {// 30天之前不重复取
             log.info(uid + " Load fans limit! Try later.");
             return;
-        }
 
+        } else if (diffDays > 1) {// 以前取过调用follow.ids[15]
+            Set<Long> uids = new HashSet<Long>();
+            Map<String, Object> paramMap = new HashMap<String, Object>();
+            paramMap.put("uid", uid);
+            List<UserRelateDTO> list = userRelateService.getUserRelatesPaging(paramMap, new PageInObject(0, 10, "id", "desc")).getList();
+            for (UserRelateDTO dto : list) {
+                uids.add(dto.getFansid());
+            }
+            fans(uid, uids, token);
+
+        } else {// 新的没取过的
+            Friendships fm = new Friendships();
+            fm.client.setToken(token);
+            int count = n < SpringService.WEIBO_LOAD_COUNT_200 ? n : SpringService.WEIBO_LOAD_COUNT_200;
+            int i = 0;
+            do {
+                UserWapper users = fm.getFollowersById(String.valueOf(uid), (int) count, (int) i);
+                for (User u : users.getUsers()) {
+                    try {
+                        userService.insertUser(WeiboTransfer.user(u));
+                    } catch (Exception e) {
+                        log.debug("{user:" + uid + "}" + e.getMessage());
+                    }
+
+                    try {
+                        userRelateService.insertUserRelate(new UserRelateDTO(uid, Long.parseLong(u.getId())));
+                    } catch (Exception e) {
+                        log.debug("{user:" + uid + ",fans:" + u.getId() + "}" + e.getMessage());
+                    }
+                }
+                i += count;
+                count = (int) users.getTotalNumber() - i > SpringService.WEIBO_LOAD_COUNT_200 ? SpringService.WEIBO_LOAD_COUNT_200 : (int) users.getTotalNumber() - i;
+                n = (int) users.getTotalNumber() > n ? n : (int) users.getTotalNumber();
+                log.info(uid + " LOAD fans count: " + i + "/" + n);
+            } while (i < n && i <= SpringService.WEIBO_LOAD_COUNT_5000);
+        }
+        loadFrequenceService.insertLoadFrequence(new LoadFrequenceDTO(uid, SpringService.LIMIT_WEIBO_LOAD_FANS, null));
+    }
+
+    public void fans(long uid, Set<Long> uids, String token) throws WeiboException {
+        int n = SpringService.WEIBO_LOAD_COUNT_MAX;
         Friendships fm = new Friendships();
         fm.client.setToken(token);
         int count = n < SpringService.WEIBO_LOAD_COUNT_200 ? n : SpringService.WEIBO_LOAD_COUNT_200;
         int i = 0;
+        boolean again = true;
+
         do {
             UserWapper users = fm.getFollowersById(String.valueOf(uid), (int) count, (int) i);
             for (User u : users.getUsers()) {
+                if (uids.size() <= 5) {// 重复判断
+                    again = false;
+                    break;
+                }
+
                 try {
                     userService.insertUser(WeiboTransfer.user(u));
                 } catch (Exception e) {
                     log.debug("{user:" + uid + "}" + e.getMessage());
                 }
 
+                if (uids.remove(Long.parseLong(u.getId()))) // 重复了
+                    continue;
+
                 try {
                     userRelateService.insertUserRelate(new UserRelateDTO(uid, Long.parseLong(u.getId())));
                 } catch (Exception e) {
-                    log.debug("{user:" + uid + ",fans:" + u.getId() + "}" + e.getMessage());
+                    log.debug("{user:" + u.getId() + ",fans:" + uid + "}" + e.getMessage());
                 }
             }
             i += count;
             count = (int) users.getTotalNumber() - i > SpringService.WEIBO_LOAD_COUNT_200 ? SpringService.WEIBO_LOAD_COUNT_200 : (int) users.getTotalNumber() - i;
             n = (int) users.getTotalNumber() > n ? n : (int) users.getTotalNumber();
-            log.info(uid + " LOAD fans count: " + i + "/" + n);
-        } while (i < n && i <= SpringService.WEIBO_LOAD_COUNT_5000);
-
-        loadFrequenceService.insertLoadFrequence(new LoadFrequenceDTO(uid, SpringService.LIMIT_WEIBO_LOAD_FANS, null));
+            log.info(uid + " LOAD fans again count: " + i + "/" + n);
+        } while (i < n && i <= SpringService.WEIBO_LOAD_COUNT_2000 && again);
     }
 
     @Override
@@ -103,19 +154,69 @@ public class LoadServiceImpl implements LoadService {
 
     @Override
     public void follow(long uid, int n, String token) throws WeiboException {
-        if (!loadLimit(uid, SpringService.LIMIT_WEIBO_LOAD_FOLLOW, 30)) {
+        int diffDays = loadDiffDays(uid, SpringService.LIMIT_WEIBO_LOAD_FOLLOW);
+        if (diffDays >= 0 && diffDays <= 30) {// 30天之前不重复取
             log.info(uid + " Load follow limit! Try later.");
             return;
-        }
 
+        } else if (diffDays > 1) {// 以前取过调用follow.ids[15]
+            Set<Long> uids = new HashSet<Long>();
+            Map<String, Object> paramMap = new HashMap<String, Object>();
+            paramMap.put("fansid", uid);
+            List<UserRelateDTO> list = userRelateService.getUserRelatesPaging(paramMap, new PageInObject(0, 10, "id", "desc")).getList();
+            for (UserRelateDTO dto : list) {
+                uids.add(dto.getUid());
+            }
+            follow(uid, uids, token);
+
+        } else {// 新的没取过的
+            Friendships fm = new Friendships();
+            fm.client.setToken(token);
+            int count = n < SpringService.WEIBO_LOAD_COUNT_200 ? n : SpringService.WEIBO_LOAD_COUNT_200;
+            int i = 0;
+
+            do {
+                UserWapper users = fm.getFriendsById(String.valueOf(uid), (int) count, (int) i);
+                for (User u : users.getUsers()) {
+                    try {
+                        userService.insertUser(WeiboTransfer.user(u));
+                    } catch (Exception e) {
+                        log.debug("{user:" + uid + "}" + e.getMessage());
+                    }
+                    try {
+                        userRelateService.insertUserRelate(new UserRelateDTO(Long.parseLong(u.getId()), uid));
+                    } catch (Exception e) {
+                        log.debug("{user:" + u.getId() + ",fans:" + uid + "}" + e.getMessage());
+                    }
+                }
+                i += count;
+                count = (int) users.getTotalNumber() - i > SpringService.WEIBO_LOAD_COUNT_200 ? SpringService.WEIBO_LOAD_COUNT_200 : (int) users.getTotalNumber() - i;
+                n = (int) users.getTotalNumber() > n ? n : (int) users.getTotalNumber();
+                log.info(uid + " LOAD follow count: " + i + "/" + n);
+            } while (i < n && i <= SpringService.WEIBO_LOAD_COUNT_2000);
+        }
+        loadFrequenceService.insertLoadFrequence(new LoadFrequenceDTO(uid, SpringService.LIMIT_WEIBO_LOAD_FOLLOW, null));
+    }
+
+    public void follow(long uid, Set<Long> uids, String token) throws WeiboException {
+        int n = SpringService.WEIBO_LOAD_COUNT_MAX;
         Friendships fm = new Friendships();
         fm.client.setToken(token);
         int count = n < SpringService.WEIBO_LOAD_COUNT_200 ? n : SpringService.WEIBO_LOAD_COUNT_200;
         int i = 0;
+        boolean again = true;
 
         do {
             UserWapper users = fm.getFriendsById(String.valueOf(uid), (int) count, (int) i);
             for (User u : users.getUsers()) {
+                if (uids.size() <= 5) {// 重复判断
+                    again = false;
+                    break;
+                }
+
+                if (uids.remove(Long.parseLong(u.getId()))) // 重复了
+                    continue;
+
                 try {
                     userService.insertUser(WeiboTransfer.user(u));
                 } catch (Exception e) {
@@ -130,9 +231,8 @@ public class LoadServiceImpl implements LoadService {
             i += count;
             count = (int) users.getTotalNumber() - i > SpringService.WEIBO_LOAD_COUNT_200 ? SpringService.WEIBO_LOAD_COUNT_200 : (int) users.getTotalNumber() - i;
             n = (int) users.getTotalNumber() > n ? n : (int) users.getTotalNumber();
-            log.info(uid + " LOAD follow count: " + i + "/" + n);
-        } while (i < n && i <= SpringService.WEIBO_LOAD_COUNT_2000);
-        loadFrequenceService.insertLoadFrequence(new LoadFrequenceDTO(uid, SpringService.LIMIT_WEIBO_LOAD_FOLLOW, null));
+            log.info(uid + " LOAD follow again count: " + i + "/" + n);
+        } while (i < n && i <= SpringService.WEIBO_LOAD_COUNT_1000 && again);
     }
 
     @Override

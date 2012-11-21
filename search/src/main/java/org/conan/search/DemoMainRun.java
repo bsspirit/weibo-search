@@ -1,58 +1,46 @@
 package org.conan.search;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.conan.base.service.PageInObject;
 import org.conan.base.service.SpringService;
 import org.conan.base.util.SpringInitialize;
 import org.conan.search.weibo.action.LoadService;
-import org.conan.search.weibo.action.TaskService;
+import org.conan.search.weibo.model.UserRelateDTO;
+import org.conan.search.weibo.service.UserRelateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import weibo4j.Timeline;
-import weibo4j.model.Paging;
-import weibo4j.model.Status;
-import weibo4j.model.StatusWapper;
 import weibo4j.model.WeiboException;
 
 @Component
 public class DemoMainRun extends SpringInitialize {
 
     @Autowired
-    TaskService taskService;
+    LoadService loadService;
 
     @Autowired
-    LoadService loadService;
+    UserRelateService userRelateService;
 
     // AccessToken [accessToken=2.00AKoZEDzzDJbEde0742c13e9GYV4D,
     // expireIn=157679999, refreshToken=,uid=2816038140]
     public static void main(String[] args) throws IOException {
         String token = "2.00v9eSLCzzDJbE8e025c068aftigRE";
-        long uid = 1999250817l;
-        long tid = 3510893100699457l;
+        inputObj.put("token", token);
 
-        int count = SpringService.WEIBO_LOAD_COUNT_100;
-        int page = 1;
-
-        Timeline tm = new Timeline();
-        tm.client.setToken(token);
-
-        StatusWapper status = null;
-        do {
-            try {
-                status = tm.getUserTimelineByUid(String.valueOf(uid), new Paging(page++, count, tid));
-                for (Status s : status.getStatuses()) {
-                    System.out.println(s.getText());
-                }
-            } catch (WeiboException e) {
-                e.printStackTrace();
-            }
-        } while (status != null && status.getStatuses() != null && status.getStatuses().size() > 0);
-
+        DemoMainRun demo = getContext().getBean(DemoMainRun.class);
+        demo.run(args);
     }
 
     @Override
     public void input(String[] args) {
+        inputObj.put("uid", "1999250817");
+        inputObj.put("tid", "3513345531346574");
     }
 
     @Override
@@ -61,5 +49,25 @@ public class DemoMainRun extends SpringInitialize {
 
     @Override
     public void task() {
+        try {
+            Set<Long> uids = new HashSet<Long>();
+
+            Map<String, Object> paramMap = new HashMap<String, Object>();
+            //paramMap.put("fansid", 1999250817);
+            paramMap.put("uid", 1999250817);
+            
+            List<UserRelateDTO> list = userRelateService.getUserRelatesPaging(paramMap, new PageInObject(0, 15, "id", "desc")).getList();
+
+            for (UserRelateDTO dto : list) {
+                uids.add(dto.getFansid());
+            }
+
+           // loadService.follow(1999250817, SpringService.WEIBO_LOAD_COUNT_200, inputObj.get("token"));
+            loadService.fans(1999250817, SpringService.WEIBO_LOAD_COUNT_200, inputObj.get("token"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (WeiboException e) {
+            e.printStackTrace();
+        }
     }
 }
