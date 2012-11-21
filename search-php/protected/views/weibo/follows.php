@@ -8,10 +8,10 @@ function operate($screen){
 	return $html;
 }
 
-function link($uid,$label,$type){
+function linkLabel($uid,$label,$type){
 	$html = '';
-	switch($type){
-		case 'screen':
+ 	switch($type){
+ 		case 'screen':
 			$html = '<a target="_blank" href="/weibo/profile?uid='.$uid.'">'.$label.'</a>';
 			break;
 		case 'fans':
@@ -23,7 +23,7 @@ function link($uid,$label,$type){
 		case 'tweet':
 			$html = '<a target="_blank" href="/weibo/tweets?uid='.$uid.'">'.$label.'</a>';
 			break;
-	}
+ 	}
 	return $html;
 }
 
@@ -45,22 +45,22 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'name'=>'screen_name',
 			'type'=>'raw',
-			'value' => 'link($data->uid,$data->screen_name,screen)',
+			'value' => 'linkLabel($data->fansid,$data->screen_name,"screen")',
 		),
 		array(
 			'name'=>'follows',
 			'type'=>'raw',
-			'value' => 'link($data->uid,$data->friends_count,"follow")',
+			'value' => 'linkLabel($data->fansid,$data->friends_count,"follow")',
 		),
 		array(
 			'name'=>'fans',
 			'type'=>'raw',
-			'value' => 'link($data->uid,$data->followers_count,"fans")',
+			'value' => 'linkLabel($data->fansid,$data->followers_count,"fans")',
 		),
 		array(
 			'name'=>'tweets',
 			'type'=>'raw',
-			'value' => 'link($data->uid,$data->statuses_count,"tweet")',
+			'value' => 'linkLabel($data->fansid,$data->statuses_count,"tweet")',
 		),
 		array(
 			'name'=>'verified',
