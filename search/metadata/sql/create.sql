@@ -102,6 +102,8 @@ CREATE TABLE t_tweet(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE  INDEX t_tweet_IDX_0 on t_tweet(retid);
 CREATE  INDEX t_tweet_IDX_1 on t_tweet(uid);
+CREATE  INDEX t_tweet_IDX_2 on t_tweet(created_at);
+
 
 CREATE TABLE t_tweet_source(
     id INT PRIMARY KEY AUTO_INCREMENT,

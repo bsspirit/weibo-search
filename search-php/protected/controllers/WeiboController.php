@@ -95,6 +95,8 @@ class WeiboController extends Controller{
 			$dp=new CActiveDataProvider('Tweet',array(
 					'criteria' => array('condition'=>$cond),
 					'pagination'=>array('pageSize'=>10),
+					'sort'=>array('defaultOrder'=>'created_at DESC'),
+					
 			));
 			//retweet====================================
 			$retids=null;
