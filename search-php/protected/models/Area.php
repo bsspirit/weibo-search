@@ -91,7 +91,7 @@ class Area extends CActiveRecord
 		));
 	}
 	
-	public static function dropDownArea($area){
+	public static function dropDownArea($area,$empty=true){
 		$sql = "select area from t_area";
 		$conn=Yii::app()->db;
 		$command = $conn->createCommand($sql);
@@ -100,7 +100,7 @@ class Area extends CActiveRecord
 		$html='<select name="area">';
 		for($i=0;$i<count($datas);$i++){
 			$d=$datas[$i]['area'];
-			if($i==0) $html.='<option value=""></option>';
+			if($empty && $i==0) $html.='<option value=""></option>';
 			
 			$c = '';
 			if(!empty($area) && $area==$d){

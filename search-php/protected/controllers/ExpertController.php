@@ -76,9 +76,31 @@ class ExpertController extends Controller
 	}
 	
 	/**
+	 * 专家增加
+	 */
+	public function actionLeaderCreate(){
+		$model=null;
+		if(!empty($_REQUEST['uid'])){
+			$model=User::model()->find("uid=".$_REQUEST['uid']);
+			if($model===null) throw new CHttpException(404,'The requested page does not exist.');
+		}
+		
+// 		if(isset($_POST['UserSign'])){
+// 			$model->attributes=$_POST['UserSign'];
+// 			if($model->save())
+// 				$this->redirect('/expert/leaderCreate');
+// 		}
+		
+		$this->render('leaderCreate',array(
+				'model'=>$model,
+				'form'=>FormService::create(array('uid')),
+		));
+	}
+	
+	/**
 	 * 专家操作, create 
 	 */
-	public function actionLeaderCreate($uid,$area,$type='leader'){
+	public function actionLeaderCreateAjax($uid,$area,$type='leader'){//ajax
 		if(empty($uid) || empty($area)) throw new CHttpException(401,'userid and area can\'t by empty.');
 		
 		$model = new UserSign();

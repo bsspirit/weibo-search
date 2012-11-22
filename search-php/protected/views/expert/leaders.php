@@ -2,6 +2,10 @@
 <h1>专家列表</h1>
 <?php include_once dirname(__FILE__).'/../common/_quickForm.php';?>
 
+<div class="view">
+	<a href="/expert/leaderCreate">增加专家</a>
+</div>
+
 <?php
 function operate($id){
 	$v = '<a href="javascript:void(0);" onclick="actionLeader(this)" lid="'.$id.'" type="leader">leader</a>&nbsp;&nbsp;|&nbsp;&nbsp';

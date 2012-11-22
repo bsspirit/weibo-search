@@ -46,7 +46,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		var uid = $(obj).attr('uid');
 		var area = $(obj).attr('area');
 		var type = $(obj).attr('type');
-		var path='/expert/leaderCreate?uid='+uid+'&type='+type+'&area='+area;
+		var path='/expert/leaderCreateAjax?uid='+uid+'&type='+type+'&area='+area;
 
 		$.ajax({
 			  url: path,
