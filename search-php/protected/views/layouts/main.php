@@ -39,12 +39,11 @@
 		<?php }?>
 	
 		<?php if(!Yii::app()->user->isGuest){?>
+		<!-- 
 		<li><a href="/setup/leaders">专家列表</a></li>
 		<li><a href="/setup/areaUsers">已选出用户</a></li>
-		<!-- <li><a href="/setup/fans">粉丝列表</a></li>
-		<li><a href="/setup/follows">关注列表</a></li>
-		<li><a href="/setup/tweets">微博列表</a></li> -->
-		
+		 -->
+		<li><a href="/expert">专家系统</a></li>
 		<li><a href="/weibo">微博管理</a></li>
 		<li><a href="/task">任务管理</a></li>
 		<?php }?>
