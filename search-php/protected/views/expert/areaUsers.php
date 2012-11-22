@@ -3,9 +3,10 @@
 <?php include_once dirname(__FILE__).'/../common/_quickForm.php';?>
 
 <?php 
-function operate($fansid){
+function operate($fansid,$screen){
 	$v = '<a href="javascript:void(0);" onclick="actionLeaderCreate(this)"  uid="'.$fansid.'" area="'.$_GET['area'].'" type="leader">leader</a>&nbsp;&nbsp;|&nbsp;&nbsp';
-	$v .= '<a href="javascript:void(0);" onclick="actionLeaderCreate(this)"  uid="'.$fansid.'" area="'.$_GET['area'].'" type="member">member</a>&nbsp;&nbsp;';
+	$v .= '<a href="javascript:void(0);" onclick="actionLeaderCreate(this)"  uid="'.$fansid.'" area="'.$_GET['area'].'" type="member">member</a>&nbsp;&nbsp;|&nbsp;&nbsp';
+	$v .= '<a href="javascript:void(0);" onclick="actionAdd(this)" screen="'.$screen.'">Add Task</a>';
 	return $v;
 }
 
@@ -28,7 +29,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'name'=>'operate',
 			'type'=>'raw',
-			'value'=>'operate($data->fansid)',		
+			'value'=>'operate($data->fansid,$data->screen_name)',		
 		),
 		array(
 			'name'=>'view',
@@ -59,6 +60,26 @@ $this->widget('zii.widgets.grid.CGridView', array(
 					  alert('操作失败!');
 				  }
 			  }
+		});
+	}
+
+	function actionAdd(obj){
+		var screen = $(obj).attr('screen');
+		var path='/task/add?screen='+screen;
+		$(obj).removeAttr('onclick');
+		$(obj).css({"color":"gray", "text-decoration":"none"});
+		
+		$.ajax({
+		  url: path,
+		  success: function(obj){
+			  if(obj=='1'){
+				  alert('操作成功!');
+			  } else if(obj=='2'){
+				  alert(screen+',已在任务列表中!');
+			  } else {
+				  alert("读取失败!");
+			  }
+		  }
 		});
 	}
 </script>
