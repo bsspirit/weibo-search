@@ -45,22 +45,22 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'name'=>'screen_name',
 			'type'=>'raw',
-			'value' => 'linkLabel($data->fansid,$data->screen_name,"screen")',
+			'value' => 'linkLabel($data->uid,$data->screen_name,"screen")',
 		),
 		array(
 			'name'=>'follows',
 			'type'=>'raw',
-			'value' => 'linkLabel($data->fansid,$data->friends_count,"follow")',
+			'value' => 'linkLabel($data->uid,$data->friends_count,"follow")',
 		),
 		array(
 			'name'=>'fans',
 			'type'=>'raw',
-			'value' => 'linkLabel($data->fansid,$data->followers_count,"fans")',
+			'value' => 'linkLabel($data->uid,$data->followers_count,"fans")',
 		),
 		array(
 			'name'=>'tweets',
 			'type'=>'raw',
-			'value' => 'linkLabel($data->fansid,$data->statuses_count,"tweet")',
+			'value' => 'linkLabel($data->uid,$data->statuses_count,"tweet")',
 		),
 		array(
 			'name'=>'verified',
