@@ -15,7 +15,7 @@ class DownloadService{
 				'tweet'=>" select t.tid,t.uid,t.retid,t.created_at,t.text,t.source_name,t.reposts_count,t.comments_count,t.bmiddlePic".
 						 " from t_tweet t,v_fans_area a".
 						 " where t.uid=a.fansid".
-						 " and a.area='".$area."' and a.num>=3 limit 50000",
+						 " and a.area='".$area."' and a.num>=3 limit 5000",
 		);
 		
 		$dir=DownloadService::db2CSV($sqls);
