@@ -19,7 +19,6 @@ class DownloadService{
 		);
 		
 		$dir=DownloadService::db2CSV($sqls);
-		
 		$zip=FileService::dirZip($dir);
 		
 		return $url.$zip;
@@ -31,7 +30,7 @@ class DownloadService{
 		$connection=Yii::app()->db;
 		
 		foreach(array_keys($sqls) as $key){
-			$sql = $sqls[$key];
+			$sql = $sqls[$key];			
 			$command=$connection->createCommand($sql);
 			$rows = $command->queryAll();
 			

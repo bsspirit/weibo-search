@@ -210,10 +210,16 @@ class ExpertController extends Controller
 		echo 1;
 	}
 	
-	public function actionDownload($area){
-		echo DownloadService::httpUserArea($area);
+	/**
+	 * 产生数据文件
+	 */
+	public function actionGenerate($area){
+		$url=DownloadService::httpUserArea($area);
 		
-// 		echo date('Ymdhis');
+		echo json_encode(
+			array('success'=>1,'url'=>$url)
+		); 
+		
 	}
 	
 	

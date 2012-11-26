@@ -22,7 +22,8 @@ if(!empty($dataProvider)){
 ?>
 
 <div class="view">
-	<a href="javascript:void(0);" onclick="actionDownload('<?php echo $_GET['area']?>')">下载数据</a>
+	<a href="javascript:void(0);" onclick="actionGenerate('<?php echo $_GET['area']?>')">生成数据</a>
+	<div id="area-download"></div>
 </div>
 
 <?php 	
@@ -90,21 +91,19 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		});
 	}
 
-	function actionDownload(area){
-		alert(area);
-	/*$.ajax({
-		  url: path,
-		  success: function(obj){
-			  if(obj=='1'){
-				  alert('操作成功!');
-			  } else if(obj=='2'){
-				  alert(screen+',已在任务列表中!');
-			  } else {
-				  alert("读取失败!");
+	function actionGenerate(area){
+		$.ajax({
+			  url: '/expert/generate?area='+area,
+			  success: function(json){
+				  var obj = $.parseJSON(json);  
+				  if(obj.success=='1'){
+					  alert('操作成功!');
+					  $('#area-download').html('<br/><a href="'+obj.url+'">下载数据</a>');
+				  } else {
+					  alert("读取失败!");
+				  }
 			  }
-		  }
-		});
-	*/
+		  });
 	}
 </script>
 
