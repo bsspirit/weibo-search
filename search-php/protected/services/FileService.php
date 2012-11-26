@@ -45,7 +45,7 @@ class FileService{
 					if (is_dir($dir.$files)){
 						$curdir = getcwd();
 						chdir($dir.$files);
-						$file = array_merge($file, $this -> GetFileList("", "$pref$files/"));
+						$file = array_merge($file, FileService::ls("", "$pref$files/"));
 						chdir($curdir);
 					}
 					else $file[]=$pref.$files;
