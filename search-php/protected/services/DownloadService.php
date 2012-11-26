@@ -3,7 +3,8 @@
 class DownloadService{
 
 	public static function httpUserArea($area){
-		$url = 'http://db.fens.me/download/data/';
+		$url = 'http://ds.fens.me/';
+		#/home/huang/deploy/weibo-search/search-php/temp/20121126022357
 		
 		$sqls=array(
 				'fans_area'=>"select fansid,screen_name,num from v_fans_area where area='".$area."' and num>=3",
