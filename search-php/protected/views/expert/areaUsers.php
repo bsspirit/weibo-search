@@ -26,6 +26,9 @@ if(!empty($dataProvider)){
 	<div id="area-download"></div>
 </div>
 
+<div id="load-dialog"></div>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-ui-1.8.20.custom.min.js"></script>
+
 <?php 	
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'areaUsers-grid',
@@ -91,16 +94,28 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		});
 	}
 
+	$("#load-dialog").dialog({
+		autoOpen: false,
+		height: 150,
+		width: 300,
+		modal: true
+	});
+
 	function actionGenerate(area){
+		$('#load-dialog').html('请稍等: 正在加载微博数据');
+		$('#load-dialog').dialog('option','title','数据初始化......');
+		$('#load-dialog').dialog('open');
+		
 		$.ajax({
 			  url: '/expert/generate?area='+area,
 			  success: function(json){
 				  var obj = $.parseJSON(json);  
 				  if(obj.success=='1'){
-					  alert('操作成功!');
+					  $('#load-dialog').dialog('close');
 					  $('#area-download').html('<br/><a href="'+obj.url+'">下载数据</a>');
 				  } else {
 					  alert("读取失败!");
+					  $('#load-dialog').dialog('close');
 				  }
 			  }
 		  });
