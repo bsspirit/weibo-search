@@ -210,5 +210,11 @@ class ExpertController extends Controller
 		echo 1;
 	}
 	
+	public function actionDownload($area){
+		echo DownloadService::httpUserArea($area);
+		
+// 		echo date('Ymdhis');
+	}
+	
 	
 }

@@ -19,6 +19,13 @@ function basic($fansid){
 }
 
 if(!empty($dataProvider)){
+?>
+
+<div class="view">
+	<a href="javascript:void(0);" onclick="actionDownload('<?php echo $_GET['area']?>')">下载数据</a>
+</div>
+
+<?php 	
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'areaUsers-grid',
 	'dataProvider'=>$dataProvider,
@@ -81,6 +88,23 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			  }
 		  }
 		});
+	}
+
+	function actionDownload(area){
+		alert(area);
+	/*$.ajax({
+		  url: path,
+		  success: function(obj){
+			  if(obj=='1'){
+				  alert('操作成功!');
+			  } else if(obj=='2'){
+				  alert(screen+',已在任务列表中!');
+			  } else {
+				  alert("读取失败!");
+			  }
+		  }
+		});
+	*/
 	}
 </script>
 
