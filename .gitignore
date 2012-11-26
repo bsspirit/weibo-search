@@ -9,4 +9,3 @@ search/metadata/doc
 search-php/assets/*
 search-php/protected/runtime/*
 search-php/temp/*
-search-php/metadata/*
