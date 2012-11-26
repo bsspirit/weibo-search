@@ -37,7 +37,7 @@ class FileService{
 	public static function ls($dir){
 		if (file_exists($dir)){
 			$args = func_get_args();
-			$pref = $args[1];
+			$pref=count($args)>=2?$args[1]:'';
 
 			$dh = opendir($dir);
 			while($files = readdir($dh)){
@@ -52,7 +52,7 @@ class FileService{
 				}
 			}
 			closedir($dh);
-		}
+		}		
 		return $file;
 	}
 	
