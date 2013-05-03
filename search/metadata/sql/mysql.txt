@@ -1,0 +1,3 @@
+CREATE DATABASE search;
+GRANT ALL ON search.* to search@'%' IDENTIFIED BY 'search';
+GRANT ALL ON search.* to search@localhost IDENTIFIED BY 'search';

@@ -4,7 +4,6 @@ class DownloadService{
 
 	public static function httpUserArea($area){
 		$url = 'http://ds.fens.me/';
-		#/home/huang/deploy/weibo-search/search-php/temp/20121126022357
 		
 		$sqls=array(
 				'fans_area'=>"select fansid,screen_name,num from v_fans_area where area='".$area."' and num>=3",
@@ -15,7 +14,7 @@ class DownloadService{
 				'tweet'=>" select t.tid,t.uid,t.retid,t.created_at,t.text,t.source_name,t.reposts_count,t.comments_count,t.bmiddlePic".
 						 " from t_tweet t,v_fans_area a".
 						 " where t.uid=a.fansid".
-						 " and a.area='".$area."' and a.num>=3 limit 5000",
+						 " and a.area='".$area."' and a.num>=3",
 		);
 		
 		$dir=DownloadService::db2CSV($sqls);

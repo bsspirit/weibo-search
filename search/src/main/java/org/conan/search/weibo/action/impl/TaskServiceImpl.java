@@ -32,8 +32,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void load(long uid, String token) throws WeiboException, IOException {
-        loadService.follow(uid, SpringService.WEIBO_LOAD_COUNT_MAX, token);
-        loadService.fans(uid, SpringService.WEIBO_LOAD_COUNT_MAX, token);
+//        loadService.follow(uid, SpringService.WEIBO_LOAD_COUNT_MAX, token);
+//        loadService.fans(uid, SpringService.WEIBO_LOAD_COUNT_MAX, token);
         loadService.tweet(uid, SpringService.WEIBO_LOAD_COUNT_MAX, token);
         loadUserService.deleteLoadUser(new LoadUserDTO(loadService.getScreenByUid(uid, token), null));
     }

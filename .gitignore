@@ -4,6 +4,7 @@
 .settings
 target
 *.log
+.metadata
 
 search/metadata/doc
 search-php/assets/*
