@@ -5,6 +5,8 @@
 target
 *.log
 .metadata
+*.gz
+*.zip
 
 search/metadata/doc
 search-php/assets/*

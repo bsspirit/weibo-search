@@ -1,0 +1,27 @@
+﻿需求描述：
+抓取@中大Din所有关注的人的微博数据
+ 
+#找到所有关注的人
+INSERT INTO t_load_user (screen_name)
+SELECT u.screen_name 
+FROM t_user_relate r,t_user u
+WHERE fansid=1994626454 AND u.uid=r.uid
+
+#导出用户列表
+SELECT u.uid,u.screen_name 
+FROM t_user_relate r,t_user u
+WHERE fansid=1994626454 AND u.uid=r.uid
+
+#导出微博列表
+SELECT 	tid, uid,retid,created_at,TEXT,source_name,reposts_count,comments_count,originalPic,create_date 
+FROM t_tweet
+
+
+导出字段说明：
+task1-users.csv
+两个字段
+uid,screen_name 
+
+task1-tweet.tar.gz
+字段：
+tid, uid,retid(转发tid),created_at(发微博时间),TEXT,source_name,reposts_count,comments_count,originalPic(图片位置),create_date(抓取时间) 
