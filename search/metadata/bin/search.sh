@@ -1,7 +1,7 @@
 #!/bin/bash
 PRG=$0
-#PRGDIR=`dirname "$PRG"`
-PRGDIR=d:/workspace/java/weibo-search/search/target/search
+PRGDIR=`dirname "$PRG"`
+#PRGDIR=d:/workspace/java/weibo-search/search/target/search
 #PRGDIR=/home/huang/deploy/search
 CLASSPATH="$PRGDIR/search.jar"
 FILES=$PRGDIR/lib/*
