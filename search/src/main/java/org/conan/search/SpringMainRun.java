@@ -24,7 +24,7 @@ public class SpringMainRun extends SpringInitialize {
 //    AccessToken [accessToken=2.00v9eSLCzzDJbEf6a8adb0936WttOD, 
 //            expireIn=642833, refreshToken=,uid=1999250817]
     public static void main(String[] args) throws IOException {
-        String token = "2.00AKoZEDzzDJbEde0742c13e9GYV4D";
+        String token = "2.00v9eSLCQ6BahBfd5d138212btT6BB";
         inputObj.put("token", token);
 
         SpringMainRun spring = getContext().getBean(SpringMainRun.class);
